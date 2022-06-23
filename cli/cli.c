@@ -1,23 +1,39 @@
 /**
- * Copyright (c) 2020 Raspberry Pi (Trading) Ltd.
- *
- * SPDX-License-Identifier: BSD-3-Clause
+ * Copyright (c) 2022 RKOS-IT
  */
 
+#include <stdio.h>
 #include "pico/stdlib.h"
 
-int main() {
-#ifndef PICO_DEFAULT_LED_PIN
-#warning blink example requires a board with a regular LED
+#ifdef PICO_DEFAULT_LED_PIN
+    #define LED_ON  gpio_put(PICO_DEFAULT_LED_PIN, 1)
+    #define LED_OFF gpio_put(PICO_DEFAULT_LED_PIN, 0)
 #else
-    const uint LED_PIN = PICO_DEFAULT_LED_PIN;
-    gpio_init(LED_PIN);
-    gpio_set_dir(LED_PIN, GPIO_OUT);
-    while (true) {
-        gpio_put(LED_PIN, 1);
-        sleep_ms(1250);
-        gpio_put(LED_PIN, 0);
-        sleep_ms(250);
-    }
+    #define LED_ON  {}
+    #define LED_OFF {}
 #endif
+
+int main() {
+#ifdef PICO_DEFAULT_LED_PIN
+    gpio_init(PICO_DEFAULT_LED_PIN);
+    gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
+#endif
+    stdio_init_all();
+
+    while (true) {
+        /*LED_ON;
+        printf("Hello CLI");
+        sleep_ms(500);
+        LED_OFF;
+        sleep_ms(500);
+       */
+        int c = getchar_timeout_us(0);
+            
+        if (c != PICO_ERROR_TIMEOUT) {
+            printf("Rx: '%c'\r", c);
+        }
+            
+
+    }
 }
+
