@@ -1,0 +1,47 @@
+﻿{
+  "configurations": [
+    {
+      "name": "pico-embedded",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x86_x64" ],
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "CMAKE_MAKE_PROGRAM",
+          "value": "C:\\PROGRAM FILES\\MICROSOFT VISUAL STUDIO\\2022\\PROFESSIONAL\\COMMON7\\IDE\\COMMONEXTENSIONS\\MICROSOFT\\CMAKE\\Ninja\\ninja.exe",
+          "type": "STRING"
+        },
+        {
+          "name": "PICO_SDK_PATH",
+          "value": "C:/dev/raspberryPico/sdk-deep",
+          "type": "PATH"
+        },
+        {
+          "name": "CMAKE_CXX_COMPILER",
+          "value": "C:/Users/Robert.RKOSAD/AppData/Roaming/xPacks/@xpack-dev-tools/arm-none-eabi-gcc/11.2.1-1.2.2/.content/bin/arm-none-eabi-gcc.exe",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "CMAKE_C_COMPILER",
+          "value": "C:/Users/Robert.RKOSAD/AppData/Roaming/xPacks/@xpack-dev-tools/arm-none-eabi-gcc/11.2.1-1.2.2/.content/bin/arm-none-eabi-gcc.exe",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "CMAKE_ASM_COMPILER",
+          "value": "C:/Users/Robert.RKOSAD/AppData/Roaming/xPacks/@xpack-dev-tools/arm-none-eabi-gcc/11.2.1-1.2.2/.content/bin/arm-none-eabi-gcc.exe",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "PICO_TOOLCHAIN_PATH",
+          "value": "C:/Users/Robert.RKOSAD/AppData/Roaming/xPacks/@xpack-dev-tools/arm-none-eabi-gcc/11.2.1-1.2.2/.content/bin/",
+          "type": "FILEPATH"
+        }
+      ]
+    }
+  ]
+}
