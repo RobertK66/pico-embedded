@@ -1,20 +1,12 @@
 /**
  * Copyright (c) 2022 RKOS-IT
  */
+#include "cli.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-//#include "tusb.h"
 #include "pico/stdlib.h"
-
-#ifdef PICO_DEFAULT_LED_PIN
-    #define LED_ON  gpio_put(PICO_DEFAULT_LED_PIN, 1)
-    #define LED_OFF gpio_put(PICO_DEFAULT_LED_PIN, 0)
-#else
-    #define LED_ON  {}
-    #define LED_OFF {}
-#endif
 
 // Command Interface
 #define C_MAX_CMDSTR_LEN		16
@@ -77,7 +69,7 @@ void CliInit() {
 	printf(CLI_PROMPT);
 }
 
-// This is module main loop entry. Do not use (too much) time here!!!
+// This is module main loop entry.
 void CliMain() {
 	int ch;
 		
@@ -88,7 +80,7 @@ void CliMain() {
 		}
 
 		if ((cliRxPtrIdx >= CLI_RXBUFFER_SIZE - 1) ||
-			ch == 0x0a) {
+			ch == 0x0d) {
 			cliRxBuffer[cliRxPtrIdx] = 0x00;
 			processLine();
 			cliRxPtrIdx = 0;
@@ -97,7 +89,6 @@ void CliMain() {
 	}
 
 }
-
 
 void processLine() {
 	bool processed = false;
@@ -151,100 +142,3 @@ void CliShowStatistics(int argc, char* argv[]) {
 
 	printf("\nlinesProcessed: %d\ncmdsProcessed: %d\n", linesProcessed, cmdsProcessed);
 }
-
-typedef enum {
-	LEDs_Off,
-	LEDs_On,
-	LEDs_Slow,
-	LEDs_Medium,
-	LEDs_Fast
-} led_status;
-
-bool ledOn = true;
-uint ledCnt = 0;
-uint ledSpeed = 0;
-
-
-void LEDOnOff(int argc, char* argv[]) {
-	led_status stat = LEDs_Slow;
-	if (argc >= 1) {
-		stat = atoi(argv[0]);
-	}
-	ledSpeed = 0;
-	switch (stat) {
-	case LEDs_Off:
-		LED_OFF;
-		break;
-	case LEDs_On:
-		LED_ON;
-		break;
-	case LEDs_Slow:
-	default:
-		ledSpeed = 50000;
-		break;
-	case LEDs_Medium:
-		ledSpeed = 10000;
-		break;
-	case LEDs_Fast:
-		ledSpeed = 10;
-		break;
-	}
-	ledCnt = ledSpeed;
-}
-
-
-bool usbConnected = false;
-
-int main() {
-#ifdef PICO_DEFAULT_LED_PIN
-    gpio_init(PICO_DEFAULT_LED_PIN);
-    gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
-#endif
-    stdio_init_all();
-	// read chunk characters out of buffer
-	while ((getchar_timeout_us(0)) != PICO_ERROR_TIMEOUT);
-
-	CliInit();
-	CliRegisterCommand("led", LEDOnOff);
-    printf("Hello CLI\n");
-
-#if TUD_OPT_RP2040_USB_DEVICE_ENUMERATION_FIX==1
-    printf("USB_DEVICE_ENUMERATION_FIX is enabled\n");
-#endif
-
-	usbConnected = stdio_usb_connected();
-    if (usbConnected) {
-        printf("\nusb connected!\n");
-    } else {
-        printf("\nNo connection on USB COM!\n");
-    }
-
-    while (true) {
-		if (usbConnected != stdio_usb_connected()) {
-			usbConnected = stdio_usb_connected();
-			if (usbConnected) {
-				printf("\nusb connected now.\n");
-			}
-			else {
-				printf("\nusb disconnected now.\n");
-			}
-		}
-
-		if (ledCnt > 0) {
-			ledCnt--;
-			if (ledCnt <= 0) {
-				if (ledOn) {
-					ledOn = false;
-					LED_OFF;
-				} else {
-					ledOn = true;
-					LED_ON;
-				}
-				ledCnt = ledSpeed;
-			}
-		}
-
-		CliMain();
-    }
-}
-

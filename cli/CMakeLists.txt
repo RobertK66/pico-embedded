@@ -1,4 +1,5 @@
 add_executable(cli
+    cli_main.c
     cli.c
     )
 
