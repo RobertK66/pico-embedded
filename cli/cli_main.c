@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "pico/stdlib.h"
+#include "pico/multicore.h"
 #include "cli.h"
 
 #ifdef PICO_DEFAULT_LED_PIN
@@ -26,7 +27,7 @@ typedef enum {
 
 bool ledOn = true;
 uint ledCnt = 0;
-uint ledSpeed = 0;
+uint ledSpeed = 500000;
 
 
 void LEDOnOff(int argc, char* argv[]) {
@@ -48,15 +49,15 @@ void LEDOnOff(int argc, char* argv[]) {
 		break;
 	case LEDs_Slow:
 	default:
-		ledSpeed = 50000;
+		ledSpeed = 500000;
 		printf("slow");
 		break;
 	case LEDs_Medium:
-		ledSpeed = 10000;
+		ledSpeed = 100000;
 		printf("med");
 		break;
 	case LEDs_Fast:
-		ledSpeed = 10;
+		ledSpeed = 100;
 		printf("fast");
 		break;
 	}
@@ -64,33 +65,33 @@ void LEDOnOff(int argc, char* argv[]) {
 	printf("\n");
 }
 
+void core1_main() {
+	while (true) {
+		// Process all registered CLI Commands
+		CliMain();
+	}
+}
+
 
 bool usbConnected = false;
 
 int main() {
-#ifdef PICO_DEFAULT_LED_PIN
 	gpio_init(PICO_DEFAULT_LED_PIN);
 	gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
-#endif
 	stdio_init_all();
-	// read junk characters out of buffer
+	// read junk characters out of buffer 
 	while ((getchar_timeout_us(0)) != PICO_ERROR_TIMEOUT);
 
 	CliInit();
-	CliRegisterCommand("led", LEDOnOff);
+	
+
+	multicore_launch_core1(core1_main); 
+
+	ledCnt = ledSpeed;
+
 	printf("Hello CLI\n");
-
-#if TUD_OPT_RP2040_USB_DEVICE_ENUMERATION_FIX==1
-	printf("USB_DEVICE_ENUMERATION_FIX is enabled\n");
-#endif
-
-	usbConnected = stdio_usb_connected();
-	if (usbConnected) {
-		printf("\nusb connected!\n");
-	}
-	else {
-		printf("\nNo connection on USB COM!\n");
-	}
+	CliRegisterCommand("led", LEDOnOff);
+	
 
 	while (true) {
 		// Check if USB connection successfull
@@ -121,6 +122,6 @@ int main() {
 		}
 
 		// Process all registered CLI Commands
-		CliMain();
+		//CliMain();
 	}
 }
