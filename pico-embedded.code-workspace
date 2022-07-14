@@ -1,0 +1,40 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"cmake.configureOnOpen": true,
+		"cmake.configureEnvironment": {
+			"PICO_SDK_PATH": "..\\..\\pico-sdk",
+			"PICO_TOOLCHAIN_PATH": "C:/dev/arm-none-eabi-gcc/bin"
+		},
+		"cmake.preferredGenerators": [
+			  "Ninja"
+		],
+		"cmake.generator": "Ninja",
+		"cortex-debug.armToolchainPath": "C:/dev/arm-none-eabi-gcc/bin",
+		"cortex-debug.openocdPath": "C:/dev/OpenOCD-20211118-0.11.0/bin/openocd_rp2040.exe",
+		"cortex-debug.gdbPath": "C:/dev/arm-none-eabi-gcc/bin/arm-none-eabi-gdb.exe",
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"cwd": "${workspaceRoot}",
+				"executable": "${workspaceRoot}\\build\\cli\\cli.elf",
+				"name": "cli Pico(gdb, OpenOCD)",
+				"request": "launch",
+				"type": "cortex-debug",
+				"servertype": "openocd",
+				"device": "Pico2040",
+				"runToMain": true,
+				"configFiles": ["interface/picoprobe.cfg", "target/rp2040.cfg"],
+				"searchDir": ["C:/dev/OpenOCD-20211118-0.11.0/share/openocd/scripts"],
+				"svdFile": "C:/dev/raspberryPico/vc/pico-sdk/src/rp2040/hardware_regs/rp2040.svd",
+			}
+		]
+	}
+	
+}

@@ -35,25 +35,33 @@ void LEDOnOff(int argc, char* argv[]) {
 		stat = atoi(argv[0]);
 	}
 	ledSpeed = 0;
+	printf("\nLed switched to ");
+
 	switch (stat) {
 	case LEDs_Off:
 		LED_OFF;
+		printf("off");
 		break;
 	case LEDs_On:
 		LED_ON;
+		printf("on");
 		break;
 	case LEDs_Slow:
 	default:
 		ledSpeed = 50000;
+		printf("slow");
 		break;
 	case LEDs_Medium:
 		ledSpeed = 10000;
+		printf("med");
 		break;
 	case LEDs_Fast:
 		ledSpeed = 10;
+		printf("fast");
 		break;
 	}
 	ledCnt = ledSpeed;
+	printf("\n");
 }
 
 
