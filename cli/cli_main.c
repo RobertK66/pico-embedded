@@ -98,10 +98,10 @@ int main() {
 		if (usbConnected != stdio_usb_connected()) {
 			usbConnected = stdio_usb_connected();
 			if (usbConnected) {
-				printf("\nusb connected now.\n");
+				printf("\nusb connected now!\n");
 			}
 			else {
-				printf("\nusb disconnected now.\n");
+				printf("\nusb disconnected now!\n");
 			}
 		}
 
