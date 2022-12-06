@@ -53,7 +53,7 @@ void LEDOnOff(int argc, char* argv[]) {
 		printf("slow");
 		break;
 	case LEDs_Medium:
-		ledSpeed = 100000;
+		ledSpeed = 100001;
 		printf("med");
 		break;
 	case LEDs_Fast:

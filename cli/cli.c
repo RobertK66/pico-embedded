@@ -13,6 +13,7 @@
 #define CLI_PROMPT 				">"
 #define CLI_MAX_COMMANDS		100
 #define CLI_MAX_PARAMS			16
+#define CLI_NEWLINE				'\n'   // 0x0a
 
 
 typedef struct cliCommand {
@@ -74,13 +75,13 @@ void CliMain() {
 	int ch;
 		
 	while ((ch = getchar_timeout_us(0)) != PICO_ERROR_TIMEOUT) {
-		if (ch != 0x0a &&
+		if (ch != CLI_NEWLINE &&
 			ch != 0x0d) {
 			cliRxBuffer[cliRxPtrIdx++] = (char)(ch);
 		}
 
 		if ((cliRxPtrIdx >= CLI_RXBUFFER_SIZE - 1) ||
-			ch == 0x0d) {
+			ch == CLI_NEWLINE) {
 			cliRxBuffer[cliRxPtrIdx] = 0x00;
 			processLine();
 			cliRxPtrIdx = 0;
