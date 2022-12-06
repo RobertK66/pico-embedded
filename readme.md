@@ -35,32 +35,32 @@ set PICO_SDK_PATH=C:/dev/pico-sdk
 ```
 * Genrate the build files for the Ninja build system.
 ```
-C:\dev\rasp_pico\pico-embedded>cmake -S . -B ./build_cli
+C:\dev\rasp_pico\pico-embedded>cmake -S . -B ./build_wincl
 -- Building for: Ninja
 Using PICO_SDK_FETCH_FROM_GIT from environment ('ON')
 Downloading Raspberry Pi Pico SDK
 ...
--- Build files have been written to: C:/dev/rasp_pico/pico-embedded/build_cli
+-- Build files have been written to: C:/dev/rasp_pico/pico-embedded/build_wincl
 C:\dev\rasp_pico\pico-embedded>
 ```
 * Execute the Build
 ```
-C:\dev\rasp_pico\pico-embedded>cd build_cli
-C:\dev\rasp_pico\pico-embedded\build_cli>ninja
+C:\dev\rasp_pico\pico-embedded>cd build_wincl
+C:\dev\rasp_pico\pico-embedded\build_wincl>ninja
 ...
 [93/93] Completed 'PioasmBuild'
 
-C:\dev\rasp_pico\pico-embedded\build_cli>
+C:\dev\rasp_pico\pico-embedded\build_wincl>
 ```
 
-* If everything succeded, you can find the .uf2 files for each sub-project under <root>\build_cli\<proj>
+* If everything succeded, you can find the .uf2 files for each sub-project under <root>\build_wincl\<proj>
 e.g.:
 ```
-C:\dev\rasp_pico\pico-embedded\build_cli>dir cli
+C:\dev\rasp_pico\pico-embedded\build_wincl>dir cli
  Datenträger in Laufwerk C: ist Windows
  Volumeseriennummer: B62B-F21E
 
- Verzeichnis von C:\dev\rasp_pico\pico-embedded\build_cli\cli
+ Verzeichnis von C:\dev\rasp_pico\pico-embedded\build_wincl\cli
 
 06.12.2022  11:25    <DIR>          .
 06.12.2022  11:25    <DIR>          ..
