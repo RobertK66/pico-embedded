@@ -35,7 +35,7 @@ set PICO_SDK_PATH=C:/dev/pico-sdk
 ```
 * Genrate the build files for the Ninja build system.
 ```
-C:\dev\rasp_pico\pico-embedded>>cmake -S . -B ./build_cli
+C:\dev\rasp_pico\pico-embedded>cmake -S . -B ./build_cli
 -- Building for: Ninja
 Using PICO_SDK_FETCH_FROM_GIT from environment ('ON')
 Downloading Raspberry Pi Pico SDK
@@ -48,6 +48,35 @@ C:\dev\rasp_pico\pico-embedded>
 C:\dev\rasp_pico\pico-embedded>cd build_cli
 C:\dev\rasp_pico\pico-embedded\build_cli>ninja
 ...
+[93/93] Completed 'PioasmBuild'
+
+C:\dev\rasp_pico\pico-embedded\build_cli>
+```
+
+* If everything succeded, you can find the .uf2 files for each sub-project under <root>\build_cli\<proj>
+e.g.:
+```
+C:\dev\rasp_pico\pico-embedded\build_cli>dir cli
+ Datenträger in Laufwerk C: ist Windows
+ Volumeseriennummer: B62B-F21E
+
+ Verzeichnis von C:\dev\rasp_pico\pico-embedded\build_cli\cli
+
+06.12.2022  11:25    <DIR>          .
+06.12.2022  11:25    <DIR>          ..
+06.12.2022  11:25            39 348 cli.bin
+06.12.2022  11:25           714 889 cli.dis
+06.12.2022  11:25            87 052 cli.elf
+06.12.2022  11:25           110 740 cli.hex
+06.12.2022  11:25            78 848 cli.uf2
+06.12.2022  11:25    <DIR>          CMakeFiles
+06.12.2022  11:24             1 218 cmake_install.cmake
+06.12.2022  11:24    <DIR>          elf2uf2
+               6 Datei(en),      1 032 095 Bytes
+               4 Verzeichnis(se), 131 400 880 128 Bytes frei
+```
+
+
 
 
 ### use with Visual Studio Code
