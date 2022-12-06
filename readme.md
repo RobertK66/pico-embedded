@@ -16,14 +16,38 @@ git                         version 2.38.1.windows.1
 ```
 
 * Download this repo code
+```
+C:\dev>mkdir rasp_pico
+C:\dev>cd rasp_pico
+C:\dev\rasp_pico>git clone https://github.com/RobertK66/pico-embedded.git
+...
+C:\dev\rasp_pico>cd pico-embedded
+```
 
-* Option Download SDK / set 'download at build time'
-
-either set ENV variable PICO_SDK_PATH to path where the sdk was downloaded manually
-or set PICO_SDK_FETCH_FROM_GIT to 'ON'
-
-* Make and build
-
+* Set build options as env variables
+```
+set CMAKE_GENERATOR=Ninja
+set PICO_SDK_FETCH_FROM_GIT=ON
+```
+If you already have an downloaded pico_sdk on your disk you can use the alternative setting
+```
+set PICO_SDK_PATH=C:/dev/pico-sdk
+```
+* Genrate the build files for the Ninja build system.
+```
+C:\dev\rasp_pico\pico-embedded>>cmake -S . -B ./build_cli
+-- Building for: Ninja
+Using PICO_SDK_FETCH_FROM_GIT from environment ('ON')
+Downloading Raspberry Pi Pico SDK
+...
+-- Build files have been written to: C:/dev/rasp_pico/pico-embedded/build_cli
+C:\dev\rasp_pico\pico-embedded>
+```
+* Execute the Build
+```
+C:\dev\rasp_pico\pico-embedded>cd build_cli
+C:\dev\rasp_pico\pico-embedded\build_cli>ninja
+...
 
 
 ### use with Visual Studio Code
