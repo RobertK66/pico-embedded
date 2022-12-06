@@ -53,7 +53,7 @@ C:\dev\rasp_pico\pico-embedded\build_wincl>ninja
 C:\dev\rasp_pico\pico-embedded\build_wincl>
 ```
 
-* If everything succeded, you can find the .uf2 files for each sub-project under <root>\build_wincl\<proj>
+* If everything succeded, you can find the .uf2 files for each sub-project under \<root>/build_wincl/\<proj>
 e.g.:
 ```
 C:\dev\rasp_pico\pico-embedded\build_wincl>dir cli
