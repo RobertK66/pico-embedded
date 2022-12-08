@@ -5,19 +5,21 @@
 		}
 	],
 	"settings": {
+		// vvvv Change this to your needs vvvv
+		"myenv.armToolsBase": "C:/dev/arm-none-eabi-gcc/bin",
+		"myenv.openocdBase": "C:/dev/OpenOCD-20211118-0.11.0",
+		"myenv.openocdExe": "${config:myenv.openocdBase}/bin/openocd_rp2040.exe",
+		// ^^^^ Change this to your needs ^^^^
+
 		"cmake.configureOnOpen": true,
 		"cmake.configureEnvironment": {
 			"PICO_SDK_FETCH_FROM_GIT":"ON",
 			"PICO_SDK_FETCH_FROM_GIT_PATH":"./../pico-sdk",
-			"PICO_TOOLCHAIN_PATH": "C:/dev/arm-none-eabi-gcc/bin"
 		},
-		"cmake.preferredGenerators": [
-			  "Ninja"
-		],
 		"cmake.generator": "Ninja",
-		"cortex-debug.armToolchainPath": "C:/dev/arm-none-eabi-gcc/bin",
-		"cortex-debug.openocdPath": "C:/dev/OpenOCD-20211118-0.11.0/bin/openocd_rp2040.exe",
-		"cortex-debug.gdbPath": "C:/dev/arm-none-eabi-gcc/bin/arm-none-eabi-gdb.exe"
+		"cortex-debug.armToolchainPath": "${config:myenv.armToolsBase}",
+		"cortex-debug.openocdPath": "${config:myenv.openocdExe}",
+		"cortex-debug.gdbPath": "${config:myenv.armToolsBase}/arm-none-eabi-gdb.exe",
 	},
 	"launch": {
 		"version": "0.2.0",
@@ -32,8 +34,8 @@
 				"device": "Pico2040",
 				"runToEntryPoint": "main",
 				"configFiles": ["interface/picoprobe.cfg", "target/rp2040.cfg"],
-				"searchDir": ["C:/dev/OpenOCD-20211118-0.11.0/share/openocd/scripts"],
-				"svdFile": "./dummy/${config:cmake.configureEnvironment.PICO_SDK_PATH}/src/rp2040/hardware_regs/rp2040.svd",
+				"searchDir": ["${config:myenv.openocdBase}/share/openocd/scripts"],
+				"svdFile": "${workspaceRoot}/../pico-sdk/pico_sdk-src/src/rp2040/hardware_regs/rp2040.svd",
 			
 			}
 		]
