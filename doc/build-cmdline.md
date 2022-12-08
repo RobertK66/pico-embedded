@@ -1,6 +1,7 @@
 ### Build under Windows Commandline
 
-- Pre-Conditions 
+- Pre-Conditions
+
 You need following tools installed and available on your PATH:
 (versions used at time of documentation)
 
