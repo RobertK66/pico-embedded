@@ -1,6 +1,6 @@
 # pico-embedded
 
-This repository contains my heler tools for embedded development running on a rasperry pico.
+This repository contains my helper tools for embedded development running on a rasperry pico.
 
 Current project list
 
@@ -8,8 +8,7 @@ Current project list
 
 Here are some developer HowTos..
 
-### Build under Windows Commandline
-[doc/build-cmdline.md]
+#### [Build under Windows command line](doc/build-cmdline.md)
 
 ### use with Visual Studio Code
 
