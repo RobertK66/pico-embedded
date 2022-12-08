@@ -26,8 +26,8 @@ C:\dev\rasp_pico>cd pico-embedded
 
 * Set build options as env variables
 ```
-set CMAKE_GENERATOR=Ninja
 set PICO_SDK_FETCH_FROM_GIT=ON
+set PICO_SDK_FETCH_FROM_GIT_PATH=./../pico-sdk
 ```
 If you already have an downloaded pico_sdk on your disk you can use the alternative setting
 ```
@@ -35,32 +35,34 @@ set PICO_SDK_PATH=C:/dev/pico-sdk
 ```
 * Genrate the build files for the Ninja build system.
 ```
-C:\dev\rasp_pico\pico-embedded>cmake -S . -B ./build_wincl
+C:\dev\rasp_pico\pico-embedded>cmake -L -G Ninja -B ./build
 -- Building for: Ninja
 Using PICO_SDK_FETCH_FROM_GIT from environment ('ON')
 Downloading Raspberry Pi Pico SDK
 ...
--- Build files have been written to: C:/dev/rasp_pico/pico-embedded/build_wincl
+-- Build files have been written to: C:/dev/rasp_pico/pico-embedded/build
+... <list of cmake cache values set by config>  ...
+
 C:\dev\rasp_pico\pico-embedded>
 ```
 * Execute the Build
 ```
-C:\dev\rasp_pico\pico-embedded>cd build_wincl
-C:\dev\rasp_pico\pico-embedded\build_wincl>ninja
+C:\dev\rasp_pico\pico-embedded>cd build
+C:\dev\rasp_pico\pico-embedded\build>ninja
 ...
 [93/93] Completed 'PioasmBuild'
 
-C:\dev\rasp_pico\pico-embedded\build_wincl>
+C:\dev\rasp_pico\pico-embedded\build>
 ```
 
-* If everything succeded, you can find the .uf2 files for each sub-project under \<root>/build_wincl/\<proj>
+* If everything succeded, you can find the .uf2 files for each sub-project under \<root>/build/\<proj>
 e.g.:
 ```
-C:\dev\rasp_pico\pico-embedded\build_wincl>dir cli
+C:\dev\rasp_pico\pico-embedded\build>dir cli
  Datenträger in Laufwerk C: ist Windows
  Volumeseriennummer: B62B-F21E
 
- Verzeichnis von C:\dev\rasp_pico\pico-embedded\build_wincl\cli
+ Verzeichnis von C:\dev\rasp_pico\pico-embedded\build\cli
 
 06.12.2022  11:25    <DIR>          .
 06.12.2022  11:25    <DIR>          ..
