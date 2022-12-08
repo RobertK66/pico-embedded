@@ -10,7 +10,7 @@ Here are some developer HowTos..
 
 #### [Build under Windows command line](doc/build-cmdline.md)
 
-### use with Visual Studio Code
+#### [Build and Debug with Visual Studio Code](doc/debug-vsc.md)
 
 ### use with Visual Studio 2022
 
