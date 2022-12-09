@@ -1,4 +1,4 @@
-## Build and Debug with Visaul Studio Code under Windows
+## Build and Debug with Visaul Studio Code under Windows using a picoprobe interface
 
 - Pre-Conditions
 
@@ -52,7 +52,7 @@ Make sure the paths are correct and use a openocd variant with RP2040 Support!
  
  - Dbug by using (one of the) the named launch configurations
  
- use e.g. a picoprobe connected to your target raspberryPico as Debug hardware.
+This uses a picoprobe connected to your target raspberryPico as Debug hardware.
 
 
 
