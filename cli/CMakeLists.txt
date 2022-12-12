@@ -1,6 +1,11 @@
+# Pull in SDK (must be before project)
+#include(../pico_sdk_import.cmake)
+
+
 add_executable(cli
     cli_main.c
     cli.c
+    i2c_slave.c
     )
 
  add_compile_definitions(
@@ -10,10 +15,11 @@ add_executable(cli
 )   
 
 # pull in common dependencies
-target_link_libraries(cli pico_stdlib pico_multicore)
+target_link_libraries(cli pico_stdlib pico_multicore hardware_i2c)
 
-pico_enable_stdio_usb(cli 1)        # usb depends on host machine (USB timimgs?) if the above workaround succeeeds
+pico_enable_stdio_usb(cli 0)                            # usb depends on host machine (USB timimgs?) if the above workaround succeeeds
 pico_enable_stdio_uart(cli 1)       
+
 
 # create map/bin/hex file etc.
 pico_add_extra_outputs(cli)

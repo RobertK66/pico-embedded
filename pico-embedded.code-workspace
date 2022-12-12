@@ -20,6 +20,10 @@
 		"cortex-debug.armToolchainPath": "${config:myenv.armToolsBase}",
 		"cortex-debug.openocdPath": "${config:myenv.openocdExe}",
 		"cortex-debug.gdbPath": "${config:myenv.armToolsBase}/arm-none-eabi-gdb.exe",
+		"files.associations": {
+			"i2c.h": "c",
+			"type_traits": "c"
+		},
 	},
 	"launch": {
 		"version": "0.2.0",

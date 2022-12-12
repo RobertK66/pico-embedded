@@ -8,6 +8,7 @@
 #include "pico/stdlib.h"
 #include "pico/multicore.h"
 #include "cli.h"
+#include "i2c_slave.h"
 
 #ifdef PICO_DEFAULT_LED_PIN
 #define LED_ON  gpio_put(PICO_DEFAULT_LED_PIN, 1)
@@ -48,7 +49,7 @@ void LEDOnOff(int argc, char* argv[]) {
 		printf("on");
 		break;
 	case LEDs_Slow:
-	default:
+	
 		ledSpeed = 500000;
 		printf("slow");
 		break;
@@ -60,6 +61,11 @@ void LEDOnOff(int argc, char* argv[]) {
 		ledSpeed = 100;
 		printf("fast");
 		break;
+
+	default:	
+	    ledSpeed = 100001;
+		printf("make assert now");
+		assert(5 > 10);
 	}
 	ledCnt = ledSpeed;
 	printf("\n");
@@ -69,6 +75,7 @@ void core1_main() {
 	while (true) {
 		// Process all registered CLI Commands
 		CliMain();
+		
 	}
 }
 
@@ -78,12 +85,20 @@ bool usbConnected = false;
 int main() {
 	gpio_init(PICO_DEFAULT_LED_PIN);
 	gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
+
+    //gpio_init(PICO_DEFAULT_I2C_SCL_PIN);     // Pin 5
+    //gpio_init(PICO_DEFAULT_I2C_SDA_PIN);     // Pin 4
+    //gpio_set_dir(PICO_DEFAULT_I2C_SCL_PIN, GPIO_OUT);
+    //gpio_set_dir(PICO_DEFAULT_I2C_SDA_PIN, GPIO_OUT);
+
+
+
 	stdio_init_all();
 	// read junk characters out of buffer 
-	while ((getchar_timeout_us(0)) != PICO_ERROR_TIMEOUT);
+	while ((getchar_timeout_us(5000)) != PICO_ERROR_TIMEOUT);
 
 	CliInit();
-	
+	icsInit();
 
 	multicore_launch_core1(core1_main); 
 
@@ -91,9 +106,12 @@ int main() {
 
 	printf("Hello CLI\n");
 	CliRegisterCommand("led", LEDOnOff);
-	
+	CliRegisterCommand("show", icsShow);
+	CliRegisterCommand("set", icsSet);
 
 	while (true) {
+
+		#ifdef PICO_STDIO_USB_DEFAULT_CRLF 				// any other check avail to see if STDIO-usb is linked !?
 		// Check if USB connection successfull
 		if (usbConnected != stdio_usb_connected()) {
 			usbConnected = stdio_usb_connected();
@@ -104,6 +122,7 @@ int main() {
 				printf("\nusb disconnected now!\n");
 			}
 		}
+		#endif
 
 		// Control the LED blink speed feature
 		if (ledCnt > 0) {
@@ -111,10 +130,16 @@ int main() {
 			if (ledCnt <= 0) {
 				if (ledOn) {
 					ledOn = false;
+					gpio_put(PICO_DEFAULT_I2C_SDA_PIN, 0);
+				    gpio_put(PICO_DEFAULT_I2C_SCL_PIN, 1);
 					LED_OFF;
+						
+					
 				}
 				else {
 					ledOn = true;
+					gpio_put(PICO_DEFAULT_I2C_SDA_PIN, 1);
+					gpio_put(PICO_DEFAULT_I2C_SCL_PIN, 0);
 					LED_ON;
 				}
 				ledCnt = ledSpeed;
