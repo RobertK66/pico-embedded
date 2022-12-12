@@ -1,6 +1,6 @@
 # pico-embedded
 
-This repository contains my helper tools for embedded development running on a rasperry pico.
+This repository contains my helper tools for embedded development running on a raspberry pico.
 
 Current project list
 
