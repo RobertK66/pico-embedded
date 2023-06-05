@@ -4,6 +4,7 @@
 #include <pico/stdlib.h>
 #include <hardware/i2c.h>
 
+#include "MyI2cSlave.hpp"
 
 #define ICS_MEMORY_SIZE 256
 #define ICS_SLAVE_ADR   0x20
@@ -39,7 +40,7 @@ void icsIRQHandler(void) {
 // Module API
 void icsInit(void) {
 
-    i2c_init(i2c0, 100 * 1000);
+    i2c_init(i2c0, 100000);
     i2c_set_slave_mode(i2c0, true, ICS_SLAVE_ADR);
 
   
@@ -92,5 +93,32 @@ void icsSet(int argc, char* argv[]) {
                 Memory[i] = data;    
 		    }
         }
+	}
+}
+
+rk_myI2cSlave_t lastCreated = NULL;
+rk_myI2cSlave_t allSlaves[10];
+int curIdx = 0;
+
+void icsNewSlave(int argc, char* argv[]) {
+if (argc != 2) {
+		puts("uasge: new <slaveAdr> <dataSize>\n");
+	} else {
+		// CLI params to binary params
+		uint8_t adr = atoi(argv[0]);
+        uint16_t size = atoi(argv[1]);
+
+        void* ptr = rk_create_myI2cSlave_with_int(adr, size);
+        printf("Ptr[%d]: %08x\n ",curIdx, ptr);
+
+        if (curIdx >= 10) {
+            curIdx = 0;
+        }
+        if (allSlaves[curIdx] != NULL) {
+            printf("feree old Ptr[%d]: %08x\n", curIdx, allSlaves[curIdx]);
+            rk_free_myI2cSlave(allSlaves[curIdx]);
+        }
+        allSlaves[curIdx++] = ptr;
+        lastCreated = ptr;
 	}
 }

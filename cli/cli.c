@@ -67,6 +67,7 @@ void CliInit() {
 	cliRegisteredCommands = 0;
 	
 	CliRegisterCommand("cliStat", CliShowStatistics);
+	printf("Built with SDK: %s \n", PICO_SDK_VERSION_STRING);
 	printf(CLI_PROMPT);
 }
 

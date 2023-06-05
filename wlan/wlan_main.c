@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include "pico/stdlib.h"
 #include "pico/multicore.h"
-#include "cli.h"
-#include "i2c_slave.h"
 
 #ifdef PICO_DEFAULT_LED_PIN
 #define LED_ON  gpio_put(PICO_DEFAULT_LED_PIN, 1)
@@ -74,7 +72,7 @@ void LEDOnOff(int argc, char* argv[]) {
 void core1_main() {
 	while (true) {
 		// Process all registered CLI Commands
-		CliMain();
+//		CliMain();
 		
 	}
 }
@@ -98,19 +96,16 @@ int main() {
 	// read junk characters out of buffer 
 	while ((getchar_timeout_us(50000)) != PICO_ERROR_TIMEOUT);
 
-	CliInit();
-	icsInit();
+	//CliInit();
+	//icsInit();
 
-	multicore_launch_core1(core1_main); 
+	// multicore_launch_core1(core1_main); 
 
 	ledCnt = ledSpeed;
 
-	printf("Hello CLI\n");
-	CliRegisterCommand("led", LEDOnOff);
-	CliRegisterCommand("show", icsShow);
-	CliRegisterCommand("set", icsSet);
-	CliRegisterCommand("new", icsNewSlave);
-
+	printf("Hello wlan\n");
+	//CliRegisterCommand("led", LEDOnOff);
+	
 	while (true) {
 
 		#ifdef PICO_STDIO_USB_DEFAULT_CRLF 				// any other check avail to see if STDIO-usb is linked !?
