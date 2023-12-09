@@ -6,8 +6,9 @@
 add_executable(cli
     cli_main.c
     cli.c
-    i2c_slave.c
-    MyI2cSlave.cpp
+    #i2c_slave.c
+    #MyI2cSlave.cpp
+    srs_sim.c
 )
 
 add_compile_definitions(

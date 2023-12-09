@@ -14,7 +14,8 @@
 		"cmake.configureOnOpen": true,
 		"cmake.configureEnvironment": {
 			"PICO_SDK_FETCH_FROM_GIT": "ON",
-			"PICO_SDK_FETCH_FROM_GIT_PATH": "./../pico-sdk"
+			"PICO_SDK_FETCH_FROM_GIT_PATH": "./../pico-sdk",
+			"PICO_BOARD": "pico",	//"pico_w"
 		},
 
 		"cmake.statusbar.advanced": {
@@ -39,7 +40,9 @@
 		"cortex-debug.gdbPath": "${config:myenv.armToolsBase}/arm-none-eabi-gdb.exe",
 		"files.associations": {
 			"i2c.h": "c",
-			"type_traits": "c"
+			"type_traits": "c",
+			"cyw43_arch.h": "c",
+			"sockets.h": "c"
 		},
 	},
 	"launch": {

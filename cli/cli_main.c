@@ -8,7 +8,8 @@
 #include "pico/stdlib.h"
 #include "pico/multicore.h"
 #include "cli.h"
-#include "i2c_slave.h"
+#include "srs_sim.h"
+
 
 #ifdef PICO_DEFAULT_LED_PIN
 #define LED_ON  gpio_put(PICO_DEFAULT_LED_PIN, 1)
@@ -75,7 +76,7 @@ void core1_main() {
 	while (true) {
 		// Process all registered CLI Commands
 		CliMain();
-		
+		srsMain();
 	}
 }
 
@@ -84,8 +85,10 @@ bool usbConnected = false;
 
 
 int main() {
+	#ifdef PICO_DEFAULT_LED_PIN
 	gpio_init(PICO_DEFAULT_LED_PIN);
 	gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
+	#endif
 
     //gpio_init(PICO_DEFAULT_I2C_SCL_PIN);     // Pin 5
     //gpio_init(PICO_DEFAULT_I2C_SDA_PIN);     // Pin 4
@@ -99,17 +102,18 @@ int main() {
 	while ((getchar_timeout_us(50000)) != PICO_ERROR_TIMEOUT);
 
 	CliInit();
-	icsInit();
-
+	srsInit();
+		
+	// Start other core with own main loop
 	multicore_launch_core1(core1_main); 
 
 	ledCnt = ledSpeed;
 
-	printf("Hello CLI\n");
+	printf("Hello SRS Simulator 0.3\n");
 	CliRegisterCommand("led", LEDOnOff);
-	CliRegisterCommand("show", icsShow);
-	CliRegisterCommand("set", icsSet);
-	CliRegisterCommand("new", icsNewSlave);
+	CliRegisterCommand("show", srsShow);
+//	CliRegisterCommand("set", icsSet);
+//	CliRegisterCommand("new", icsNewSlave);
 
 	while (true) {
 

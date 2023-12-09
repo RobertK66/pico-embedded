@@ -7,7 +7,7 @@
 #include "MyI2cSlave.hpp"
 
 #define ICS_MEMORY_SIZE 256
-#define ICS_SLAVE_ADR   0x20
+#define ICS_SLAVE_ADR   0x0B
 
 
 uint16_t memAddr = 0;

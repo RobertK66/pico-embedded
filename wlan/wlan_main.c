@@ -8,6 +8,9 @@
 #include "pico/stdlib.h"
 #include "pico/multicore.h"
 
+#include "pico/cyw43_arch.h"
+#include <lwip/sockets.h>
+
 #ifdef PICO_DEFAULT_LED_PIN
 #define LED_ON  gpio_put(PICO_DEFAULT_LED_PIN, 1)
 #define LED_OFF gpio_put(PICO_DEFAULT_LED_PIN, 0)
@@ -26,7 +29,7 @@ typedef enum {
 
 bool ledOn = true;
 uint ledCnt = 0;
-uint ledSpeed = 500000;
+uint ledSpeed = 5000000;
 
 
 void LEDOnOff(int argc, char* argv[]) {
@@ -69,12 +72,16 @@ void LEDOnOff(int argc, char* argv[]) {
 	printf("\n");
 }
 
+
+
+
 void core1_main() {
-	while (true) {
-		// Process all registered CLI Commands
-//		CliMain();
-		
-	}
+
+
+    while (true)
+    {
+    }
+
 }
 
 
@@ -82,8 +89,30 @@ bool usbConnected = false;
 
 
 int main() {
-	gpio_init(PICO_DEFAULT_LED_PIN);
-	gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
+
+	stdio_init_all();
+	// read junk characters out of buffer 
+	while ((getchar_timeout_us(50000)) != PICO_ERROR_TIMEOUT);
+
+	if (cyw43_arch_init_with_country(CYW43_COUNTRY_AUSTRIA)) {
+		printf("Hello wlan 1\n");
+		printf("failed to initialise\n");
+	} else {
+		printf("Hello wlan 2\n");
+		printf("initialised\n");
+	}
+	 
+	cyw43_arch_enable_sta_mode();
+	 
+	if (cyw43_arch_wifi_connect_timeout_ms("Christofer", "wlanfacts4321", CYW43_AUTH_WPA2_AES_PSK, 10000)) {
+		printf("Hello wlan 3\n");
+		printf("failed to connect\n");
+	} else {
+		printf("Hello wlan 4\n");
+		printf("connected\n");
+	}
+	
+	
 
     //gpio_init(PICO_DEFAULT_I2C_SCL_PIN);     // Pin 5
     //gpio_init(PICO_DEFAULT_I2C_SDA_PIN);     // Pin 4
@@ -92,18 +121,18 @@ int main() {
 
 
 
-	stdio_init_all();
+	
 	// read junk characters out of buffer 
-	while ((getchar_timeout_us(50000)) != PICO_ERROR_TIMEOUT);
+	//while ((getchar_timeout_us(50000)) != PICO_ERROR_TIMEOUT);
 
 	//CliInit();
 	//icsInit();
 
-	// multicore_launch_core1(core1_main); 
+	multicore_launch_core1(core1_main); 
 
 	ledCnt = ledSpeed;
 
-	printf("Hello wlan\n");
+	//printf("Hello wlan xyz\n");
 	//CliRegisterCommand("led", LEDOnOff);
 	
 	while (true) {
@@ -129,7 +158,8 @@ int main() {
 					ledOn = false;
 					gpio_put(PICO_DEFAULT_I2C_SDA_PIN, 0);
 				    gpio_put(PICO_DEFAULT_I2C_SCL_PIN, 1);
-					LED_OFF;
+					cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+					printf("on\n");
 						
 					
 				}
@@ -137,7 +167,8 @@ int main() {
 					ledOn = true;
 					gpio_put(PICO_DEFAULT_I2C_SDA_PIN, 1);
 					gpio_put(PICO_DEFAULT_I2C_SCL_PIN, 0);
-					LED_ON;
+					cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+					printf("off\n");
 				}
 				ledCnt = ledSpeed;
 			}

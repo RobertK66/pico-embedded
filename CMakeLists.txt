@@ -30,5 +30,5 @@ pico_sdk_init()
 #        )
 add_subdirectory(cli)
 
-add_subdirectory(wlan)
+#add_subdirectory(wlan)
 
