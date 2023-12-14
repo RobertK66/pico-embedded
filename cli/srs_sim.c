@@ -107,12 +107,15 @@ static uint32_t intervalSram = 10042;
 static uint8_t commonStatus[12];
 static uint8_t extendedStatus[30];
 
-static uint32_t dataStartAddress = 4000; //0x00001000;
-static uint32_t dataEndAddress = 4019;
+static uint32_t dataStartAddress = 4000; 
+static uint32_t dataEndAddress = 4500;
 static uint32_t bytesToSend = 0;
 static uint32_t blocksToSend = 0;
 static uint32_t blocksRequested = 0;
 static uint16_t blockSize = 0;
+
+static uint8_t crcErrorEvery = 0;
+static uint16_t answerCnt = 0;
 
 uint8_t  srsCrc(uint8_t *p, uint16_t len);
 uint16_t SrscmdLength(uint8_t byte);
@@ -338,7 +341,7 @@ uint16_t GenerateAnswerIrq(uint8_t *pCmdBuffer,uint16_t len, uint8_t **ppTxBuffe
         uint8_t crc;
         case SRS_CTRLCMD_SETSYNCTIME:
             *ppTxBuffer = RxBuffer;
-            return 9;
+            return 10;
         case SRS_CTRLCMD_REQSYNCTIME:
             TxBuffer[0] = SRS_CTRLCMD_REQSYNCTIME;
             crc=SRS_CTRLCMD_REQSYNCTIME;
@@ -348,7 +351,7 @@ uint16_t GenerateAnswerIrq(uint8_t *pCmdBuffer,uint16_t len, uint8_t **ppTxBuffe
             }
             TxBuffer[9] = crc;
             *ppTxBuffer = TxBuffer;
-            return 9;
+            return 10;
         case SRS_CTRLCMD_REQSTATUS:
             TxBuffer[i++] = SRS_CTRLCMD_REQSTATUS;
             //TxBuffer[i++] = RxBuffer[1]; 
@@ -428,6 +431,8 @@ int answerInitData(uint8_t **ppTxBuffer) {
     memcpy(&blocksToSend, &RxBuffer[8], 4);
     memcpy(&blocksRequested, &RxBuffer[8], 4);
 
+    //memcpy(&dataStartAddress, &RxBuffer[4], 4);
+
     memcpy(&blockSize, &RxBuffer[2], 2);
     return 13;
 }
@@ -437,12 +442,13 @@ int answerCurrentDataBlock(uint8_t **ppTxBuffer) {
     return answerNextDataBlock(ppTxBuffer);
 }
 
-uint32_t currBlockNr;
-uint32_t blockStart;
-uint32_t blockEnd; 
+
 
 int answerNextDataBlock(uint8_t **ppTxBuffer) {
     int i=0;
+    uint32_t currBlockNr;
+    uint32_t blockStart;
+    uint32_t blockEnd; 
     if (blocksToSend>0) {
         uint16_t bytesToSend = blockSize;
         currBlockNr = (blocksRequested - blocksToSend);
@@ -495,6 +501,12 @@ uint8_t srsCrc(uint8_t *data, uint16_t len) {
 	while (len>0) {
 		ret ^= data[--len];
 	}
+    answerCnt++;
+    if (crcErrorEvery>0) {
+        if ((answerCnt%crcErrorEvery) == 0) {
+            ret++;
+        }
+    }
 	return ret;
 }
 
@@ -518,20 +530,26 @@ void srsShow(int argc, char* argv[]) {
 	}
 }
 
-// void icsSet(int argc, char* argv[]) {
-//     if (argc != 3) {
-// 		puts("uasge: set <adr> <data> <len>\n");
-// 	} else {
-// 		// CLI params to binary params
-// 		uint16_t adr = atoi(argv[0]);
-//         uint8_t data = atoi(argv[1]);
-// 		uint16_t len = atoi(argv[2]);
 
-//         if (adr + len < ICS_MEMORY_SIZE) {
-//            	for (int i=adr;i<adr+len;i++){
-//                 Memory[i] = data;    
-// 		    }
-//         }
-// 	}
-// }
+void srsSetDataArea(int argc, char* argv[]) {
+    if (argc > 0) {
+        dataStartAddress = atoi(argv[0]);
+    }
+    if (argc > 1) {
+        dataEndAddress = atoi(argv[1]);
+    }
+    if (dataEndAddress<dataStartAddress) {
+        dataEndAddress = dataEndAddress + 10;
+    }
+    printf("Data Area set to Start: %d End: %d\n", dataStartAddress, dataEndAddress);
+}
+
+void srsSetCrcSim(int argc, char* argv[]) {
+    crcErrorEvery = 0;
+    if (argc > 0) {
+        crcErrorEvery = atoi(argv[0]);
+    }
+    printf("SRS Sim will create a CRC error every %d answer.\n", crcErrorEvery);
+}
+
 

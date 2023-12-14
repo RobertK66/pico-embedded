@@ -112,6 +112,8 @@ int main() {
 	printf("Hello SRS Simulator 0.3\n");
 	CliRegisterCommand("led", LEDOnOff);
 	CliRegisterCommand("show", srsShow);
+	CliRegisterCommand("srsSet",srsSetDataArea);
+	CliRegisterCommand("crc", srsSetCrcSim);
 //	CliRegisterCommand("set", icsSet);
 //	CliRegisterCommand("new", icsNewSlave);
 
