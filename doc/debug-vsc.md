@@ -1,5 +1,31 @@
 ## Build and Debug with Visaul Studio Code under Windows using a picoprobe interface
 
+### 2023-12-17  setup with new VC versions
+
+- Installed VC with ZIP Download and configured as 'Portable' 
+  - Download and extract actaul version to C:\dev\vc_1_85_1_p 
+  - Prior to first start create the 'portable data dir' C:\dev\vc_1_85_1_p\data
+  - Prior to first start create the 'portable data dir' C:\dev\vc_1_85_1_p\data\tmp
+
+  Starting VC now should store all local settings under data, and use the own tmp iso Systems temp dir.
+
+- Plugins needed in VC:
+  - C/C++ (ms-vscode.cpptools) -> (dependency: C/C++ ExtensionPack (ms-vscodecpptools-extension-pack))
+  - CMAKE Tools (ms-vscode.cmake-tools) -> (dependency: CMake (
+twxs.cmake))
+  - Cortex Debug (marus25.cortex-debug) -> (4 dependencies ...)
+  - Optional (recomended): C/C++ Themes (ms-vscode.cpptools-themes)
+
+- Installed newer version of Cmake in C:\dev\cmake3280\
+  - changed PATH in VC Startup.bat to use this version
+
+- Make it work with
+  - Download the git clone in new directory
+  - When CMake first starts choose '_uncpecified_' as toolchain kit!!!
+
+
+### 202x  original setup
+
 - Pre-Conditions
 
 You need following tools installed and available on your PATH:
