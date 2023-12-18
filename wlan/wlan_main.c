@@ -104,7 +104,7 @@ int main() {
 	 
 	cyw43_arch_enable_sta_mode();
 	 
-	if (cyw43_arch_wifi_connect_timeout_ms("Christofer", "wlanfacts4321", CYW43_AUTH_WPA2_AES_PSK, 10000)) {
+	if (cyw43_arch_wifi_connect_timeout_ms("Christofer", "*********", CYW43_AUTH_WPA2_AES_PSK, 10000)) {
 		printf("Hello wlan 3\n");
 		printf("failed to connect\n");
 	} else {
