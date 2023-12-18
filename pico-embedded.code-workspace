@@ -17,23 +17,7 @@
 			"PICO_SDK_FETCH_FROM_GIT_PATH": "./../pico-sdk",
 			"PICO_BOARD": "pico",	//"pico_w"
 		},
-
-		"cmake.statusbar.advanced": {
-			"debug": {
-				"visibility": "hidden"
-			},
-			"launch": {
-				"visibility": "hidden"
-			},
-			"build": {
-				"visibility": "default"
-			},
-			"buildTarget": {
-				"visibility": "hidden"
-			}
-		},
 		"cmake.buildBeforeRun": true,
-
 		"cmake.generator": "Ninja",
 		"cortex-debug.armToolchainPath": "${config:myenv.armToolsBase}",
 		"cortex-debug.openocdPath": "${config:myenv.openocdExe}",
