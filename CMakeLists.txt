@@ -29,6 +29,6 @@ pico_sdk_init()
 #        -Wno-maybe-uninitialized
 #        )
 add_subdirectory(cli)
-
+add_subdirectory(obcstubs)
 #add_subdirectory(wlan)
 

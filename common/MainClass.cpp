@@ -1,0 +1,47 @@
+// This is C++ code
+#include "MainClass.h"
+#include <iostream>
+
+using std::list;
+
+MainClass::MainClass(std::list<Module> ml): modules(ml) { }
+
+void MainClass::addModule(Module *mod) {
+    list<Module>::iterator it1 = MainClass::modules.begin();
+    modules.insert(it1, mod);
+}
+
+void MainClass::runLoop() {
+    int i = 0;
+    std::cout << "modules in Main:" << std::endl;
+    std::list<Module>::iterator it;
+
+    for (it = modules.begin(); it != modules.end(); it++) {
+        // Access the object through iterator
+        std::string name = it->Name;
+        std::cout << "  " << name << std::endl;
+        it->init(nullptr);
+    }
+
+    while (true) {
+        for (it = modules.begin(); it != modules.end(); it++) {
+            // Access the object through iterator
+            it->main();        
+        }
+    }
+}
+
+// C API
+MainClass* createInstanceMainClass() {
+    std::list<Module> modl;
+    return new MainClass(modl);
+}
+
+void runLoopMainClass(MainClass* fred)
+{
+  fred->runLoop();
+}
+
+void addModuleMainClass(MainClass* mc, Module* mod) {
+  mc->addModule(mod);
+}

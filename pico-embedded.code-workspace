@@ -8,7 +8,9 @@
 		// vvvv Change this to your needs vvvv
 		"myenv.armToolsBase": "C:/dev/arm-none-eabi-gcc/bin",
 		"myenv.openocdBase": "C:/dev/OpenOCD-20211118-0.11.0",
+		//"myenv.openocdBase": "C:/dev/OpenOCD-0.12.2",
 		"myenv.openocdExe": "${config:myenv.openocdBase}/bin/openocd_rp2040.exe",
+		//"myenv.openocdExe": "${config:myenv.openocdBase}/bin/openocd.exe",
 		// ^^^^ Change this to your needs ^^^^
 
 		"cmake.configureOnOpen": true,
@@ -49,14 +51,15 @@
 			},
 			{
 				"cwd": "${workspaceRoot}",
-				"executable": "${workspaceRoot}\\build\\wlan\\wlan.elf",
-				"name": "wlan Pico(gdb, OpenOCD)",
+				"executable": "${workspaceRoot}\\build\\obcstubs\\obcstubs.elf",
+				"name": "obcstubs Pico(gdb, OpenOCD)",
 				"request": "launch",
 				"type": "cortex-debug",
 				"servertype": "openocd",
 				"device": "Pico2040",
 				"runToEntryPoint": "main",						// Makes temp Breakpoint at main
 				"configFiles": ["interface/picoprobe.cfg", "target/rp2040.cfg"],
+				//"configFiles": ["interface/cmsis-dap.cfg", "target/rp2040.cfg"],  // Use this for picoprobe-cmsis-v1.0.3
 				"searchDir": ["${config:myenv.openocdBase}/share/openocd/scripts"],
 				"svdFile": "${workspaceRoot}/../pico-sdk/pico_sdk-src/src/rp2040/hardware_regs/rp2040.svd",
 				"postRestartCommands": ["continue"], 			// Work around for stopping at main on restart
