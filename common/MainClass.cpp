@@ -4,36 +4,45 @@
 
 using std::list;
 
-MainClass::MainClass(std::list<Module> ml): modules(ml) { }
+MainClass::MainClass(std::list<Module*> ml): modules(ml) { }
 
 void MainClass::addModule(Module *mod) {
-    list<Module>::iterator it1 = MainClass::modules.begin();
-    modules.insert(it1, mod);
+    list<Module*>::iterator it1 = MainClass::modules.begin();
+    modules.insert(it1, mod); 
 }
+
+// void MainClass::addModule(LedControl *mod) {
+//     list<Module>::iterator it1 = MainClass::modules.begin();
+
+//     // Warum liefert das keinen compile error !!!!!
+//     // modules.insert(it1,mod);
+//     // ????????????????????????????????????????????
+//     modules.insert(it1,*mod); 
+// }
+
 
 void MainClass::runLoop() {
     int i = 0;
-    std::cout << "modules in Main:" << std::endl;
-    std::list<Module>::iterator it;
+    std::list<Module*>::iterator it;
 
     for (it = modules.begin(); it != modules.end(); it++) {
         // Access the object through iterator
-        std::string name = it->Name;
-        std::cout << "  " << name << std::endl;
-        it->init(nullptr);
+        //std::string name = (*it)->Name;
+        //std::cout << "  " << name << std::endl;
+        (*it)->init(nullptr);
     }
 
     while (true) {
         for (it = modules.begin(); it != modules.end(); it++) {
-            // Access the object through iterator
-            it->main();        
+            // Access the object through iterator  
+            (*it)->main();        
         }
     }
 }
 
-// C API
+//  ------- C API  -------------
 MainClass* createInstanceMainClass() {
-    std::list<Module> modl;
+    std::list<Module*> modl;
     return new MainClass(modl);
 }
 

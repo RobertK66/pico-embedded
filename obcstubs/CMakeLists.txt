@@ -1,8 +1,10 @@
 add_executable( obcstubs
     main.c
-    ../common/cli.c
     ../common/MainClass.cpp
     ../common/Module.cpp
+    ../common/CliModule.cpp
+    mod/LedControl.cpp
+
 )
 
 target_compile_definitions(obcstubs PRIVATE

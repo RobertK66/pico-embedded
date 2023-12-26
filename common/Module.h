@@ -6,16 +6,13 @@
 #include <string>
   class Module {
   public:
-    Module(void * p);
-    //Module(std::string name);
-    void main();
-    void init(void *);
+    Module(char *);
+    virtual void main();
+    virtual void init(void *);
     std::string Name;
-    //void init(void *initdata);
+    int loopCnt = 1;
   private:
     void *pInitdata;
-    int loopCnt = 1;
-   
   };
 #else
   typedef
@@ -27,7 +24,6 @@ extern "C" {
 #endif
 #if defined(__STDC__) || defined(__cplusplus)
     extern Module* createInstanceModule(char*);
-  //extern Module* cplusplus_callback_function_m(Module*);
 #else
   
   //extern Fred* cplusplus_callback_function();

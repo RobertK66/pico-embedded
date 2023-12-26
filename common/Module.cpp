@@ -3,15 +3,18 @@
 
 #include <string>
 #include <iostream>
+ 
 
-Module::Module(void *p) :pInitdata(p) { 
-    std::string conv = *((std::string*)p);
+Module::Module(char *p) :pInitdata(p) { 
+    std::string conv(p);
+    //std::cout << "Const" << conv << std::endl;
+    //std::string conv = *((std::string*)p);
     Name = conv;    
 }
 
 void Module::init(void *p)  { 
 
-}
+} 
 
 void Module::main()  { 
     if (loopCnt > 0) {
@@ -25,12 +28,11 @@ void Module::main()  {
 }
 
 
-// C API
-
-Module* createInstanceModule(char*pName)
+//  ------- C API  -------------
+Module* createInstanceModule(char* pName)
 {
-  std::string conv(pName);
-  return new Module(&conv);
+//   std::string conv(pName);
+//   std::cout << "create" << conv << std::endl;
+  return new Module(pName);
 }
-
 
