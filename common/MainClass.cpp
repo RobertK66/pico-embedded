@@ -1,6 +1,7 @@
 // This is C++ code
 #include "MainClass.h"
 #include <iostream>
+//#include <tusb.h>
 
 using std::list;
 
@@ -33,6 +34,9 @@ void MainClass::runLoop() {
     }
 
     while (true) {
+        	
+        //tud_task();
+            
         for (it = modules.begin(); it != modules.end(); it++) {
             // Access the object through iterator  
             (*it)->main();        

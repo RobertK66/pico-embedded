@@ -33,6 +33,6 @@ Module* createInstanceModule(char* pName)
 {
 //   std::string conv(pName);
 //   std::cout << "create" << conv << std::endl;
-  return new Module(pName);
+  return 0 ; //new Module(pName);
 }
 

@@ -28,7 +28,8 @@
 			"i2c.h": "c",
 			"type_traits": "c",
 			"cyw43_arch.h": "c",
-			"sockets.h": "c"
+			"sockets.h": "c",
+			"tusb.h": "c"
 		},
 	},
 	"launch": {

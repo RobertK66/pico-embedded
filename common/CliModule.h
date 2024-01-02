@@ -3,18 +3,28 @@
 #include "Module.h"
 
 
+#define CLI_RXBUFFER_SIZE 128
+
 
 #ifdef __cplusplus
 #include <list>
+#include <string>
+
   struct Cmd;
   class CliModule : public Module {
   public:
     CliModule(void);
     void main() override;
     void init(void *) override;
+    void executeCommand(int nr, int cnt, char** par) override;
     int addCommand(const char*p, Module* m, int cnr);
   private:
     std::list<Cmd*> commands;
+    bool usbConnected = false;
+    char rxBuffer[CLI_RXBUFFER_SIZE];
+    int  rxPtrIdx = 55;
+    void processLine(void);
+    std::string cmdLine;
   };
 #else
   typedef

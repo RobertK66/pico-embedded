@@ -1,31 +1,29 @@
-#ifndef LEDCONTROL_H
-#define LEDCONTROL_H
+#ifndef USB_H
+#define USB_H
 #include "../../common/Module.h"
 
-#define CMD_LED_RGB   1
-#define CMD_LED_FLASH 2
 
 #ifdef __cplusplus
-  class LedControl : public Module {
+  class Usb : public Module {
   public:
-    LedControl(void);
+    Usb(void);
     void main() override;
     void init(void *) override;
     void executeCommand(int nr, int cnt, char** par) override;
   
   private:
-    int rval, gval, bval;
+    //int rval, gval, bval;
   };
 #else
   typedef
-    struct LedControl
-      LedControl;
+    struct Usb
+      Usb;
 #endif
 #ifdef __cplusplus
 extern "C" {
 #endif
 #if defined(__STDC__) || defined(__cplusplus)
-    extern LedControl* createInstanceLedControl(void);
+    extern Usb* createInstanceUsb(void);
 #else
   
   //extern Fred* cplusplus_callback_function();
@@ -33,4 +31,4 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-#endif /*LEDCONTROL_H*/
+#endif /*USB_H*/
