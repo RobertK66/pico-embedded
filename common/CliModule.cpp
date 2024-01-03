@@ -28,9 +28,9 @@ void CliModule::main() {
     if (usbConnected != stdio_usb_connected()) {
         usbConnected = stdio_usb_connected();
         if (usbConnected) {
-            std::cout << "usb connected now!" << std::endl;
+            std::cout << "usb stdio connected now!" << std::endl;
         } else {
-            std::cout << "usb disconnected now!" << std::endl;
+            std::cout << "usb stdio disconnected now!" << std::endl;
         }
     }
     //#endif

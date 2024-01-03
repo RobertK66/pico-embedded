@@ -2,6 +2,13 @@
 #define USB_H
 #include "../../common/Module.h"
 
+#define BUFFER_SIZE 1500
+
+struct usb_buffer {
+    bool con;
+    uint8_t RxBuffer[BUFFER_SIZE];
+    uint16_t RxIdx;
+};
 
 #ifdef __cplusplus
   class Usb : public Module {
@@ -12,6 +19,7 @@
     void executeCommand(int nr, int cnt, char** par) override;
   
   private:
+    usb_buffer usbdata[3];
     //int rval, gval, bval;
   };
 #else

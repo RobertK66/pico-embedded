@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MIT
 /*
- * Copyright (c) 2021 Álvaro Fernández Rojas <noltari@gmail.com>
+ * Modified to have 3CDC endpoints (CDC0 is taken from STDIO over USB feature)
  *
  * This file is based on a file originally part of the
  * MicroPython project, http://micropython.org/
  *
+ * Copyright (c) 2021 Álvaro Fernández Rojas <noltari@gmail.com>
  * Copyright (c) 2020 Raspberry Pi (Trading) Ltd.
  * Copyright (c) 2019 Damien P. George
  */
@@ -86,7 +87,7 @@ static char usbd_serial[USBD_STR_SERIAL_LEN] = "000000000000";
 
 static const char *const usbd_desc_str[] = {
 	[USBD_STR_MANUF] = "Raspberry Pi",
-	[USBD_STR_PRODUCT] = "Tiny2040-o",
+	[USBD_STR_PRODUCT] = "Tiny2040",
 	[USBD_STR_SERIAL] = usbd_serial,
 	[USBD_STR_CDC] = "Board CDC",
 };
@@ -111,7 +112,7 @@ const uint16_t *tud_descriptor_string_cb(uint8_t index, uint16_t langid)
 		len = 1;
 	} else {
 		const char *str;
-		char serial[USBD_STR_SERIAL_LEN];
+		//char serial[USBD_STR_SERIAL_LEN];
 
 		if (index >= sizeof(usbd_desc_str) / sizeof(usbd_desc_str[0]))
 			return NULL;
