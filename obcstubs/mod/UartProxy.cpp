@@ -10,7 +10,7 @@ UartProxy::UartProxy(uart_config *cfg, char *pName, int cdc, Usb *usb) : UartBas
 }
 
  void UartProxy::main() {
-    // Base impl - makes TxBuffer to UART work. (Todo: Reads into RxBuffer)
+    // Base impl - makes TxBuffer to UART work. 
     UartBase::main();
 
     // receive from USB-COM --> send to UART (put into TxBuffer).
@@ -34,6 +34,17 @@ UartProxy::UartProxy(uart_config *cfg, char *pName, int cdc, Usb *usb) : UartBas
     
     // receive from UART --> send to USB COM (buffer).
     // check if RxBuffer contains bytes.
+    if (uart_is_readable(data.cfg->uart)) {
+		//mutex_enter_blocking(&ud->uart_mtx);
+		while (uart_is_readable(data.cfg->uart)) {
+			uint8_t b = uart_getc(data.cfg->uart);
+            pUsb->writeByteCdc(CdcNr, b);
+		}
+        pUsb->flushCdc(CdcNr);
+		//mutex_exit(&ud->uart_mtx);
+	}
+
+
 
 
  }

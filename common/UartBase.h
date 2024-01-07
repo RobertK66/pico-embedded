@@ -35,7 +35,7 @@ class UartBase : Module {
     void Reconfigure(uint32_t baud, uint8_t bit, uint8_t stop, uint8_t parity );
     bool writeByteUart(uint8_t b);
 
-  private:
+  protected:
     uart_data data;
 
   };

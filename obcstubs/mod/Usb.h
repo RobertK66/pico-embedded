@@ -1,14 +1,9 @@
 #ifndef USB_H
 #define USB_H
 #include "../../common/Module.h"
-
-//#include "UsbBase.h"
-
 #include "../../common/UartBase.h"
 
-
 #define BUFFER_SIZE 1500
-
 #define READ_NODATA -1
 
 #ifdef __cplusplus
@@ -26,12 +21,15 @@
   class Usb : public Module {
   public:
     Usb();
+    void SetUartProxy(UartBase *pCdc1Uart, UartBase *pCdc2Uart);
+
     void main() override;
     void init(void *) override;
     void executeCommand(int nr, int cnt, char** par) override;
-    int readNextRxByte(uint8_t nr);
+    int  readNextRxByte(uint8_t nr);
 
-    void SetUartProxy(UartBase *pCdc1Uart, UartBase *pCdc2Uart);
+    void writeByteCdc(int cdcNr, uint8_t b);
+    void flushCdc(int cdcNr);
   private:
     //mutex_t    rxMutex;
     usb_buffer usbdata[2];

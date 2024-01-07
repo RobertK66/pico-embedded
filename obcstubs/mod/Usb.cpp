@@ -5,8 +5,6 @@
 #include <stdlib.h>
 #include <tusb.h>
 
-
-
 Usb::Usb( ) : Module::Module((char *)"Usb")  { 
     usbdata[0].con = false;
     usbdata[0].RxIdx = 0;
@@ -24,14 +22,14 @@ void Usb::SetUartProxy(UartBase *pCdc1Uart, UartBase *pCdc2Uart) {
      usbdata[1].pUart = pCdc2Uart;
 }
 
-
 void Usb::init(void *p) {
     //tusb_init(); this has to be done before stdio_init !!!
 }
 
 void Usb::main() { 
-    tud_task(); // This serves the tiny USB main task to establish CDCs 
-                // on USB composite device.
+    tud_task();     // This serves the tiny USB main task to establish CDCs on USB composite device.
+
+    // Check both CDCs fro received data             
     for (int nr=1; nr<=2; nr++) {
         bool c = tud_cdc_n_connected(nr);
         usb_buffer *ub = &usbdata[nr-1];
@@ -40,13 +38,12 @@ void Usb::main() {
             if (ub->con) {
                 cdc_line_coding_t lc;
                 tud_cdc_n_get_line_coding(nr, &lc);
-                printf("COM-'%i' connected with %i,%i,%i,%i\n", 
-                            nr, lc.bit_rate, lc.data_bits, lc.stop_bits, lc.parity);
-                if (ub->pUart != 0) {                            
+                printf("COM-%i connected with %i,%i,%i,%i\n", nr, lc.bit_rate, lc.data_bits, lc.stop_bits, lc.parity);
+                if (ub->pUart != 0) {                      
                     ub->pUart->Reconfigure( lc.bit_rate, lc.data_bits, lc.stop_bits, lc.parity );            
                 }
             } else {
-                printf("COM-'%i' disconnected.\n", nr);
+                printf("COM-%i disconnected.\n", nr);
             }
         }
         if (ub->con) {
@@ -68,7 +65,27 @@ void Usb::main() {
     }
 }
 
+void Usb::writeByteCdc(int cdcNr, uint8_t b) {
+    assert((cdcNr>=1) && (cdcNr<=2));         // exactly 2 CDC nr (1,2) are valid!
+    usb_buffer *ub = &usbdata[cdcNr-1];
+    if (ub->con) {
+        tud_cdc_n_write_char(cdcNr, b);
+        //tud_cdc_n_write_flush(cdcNr);
+    }
+}
+
+void Usb::flushCdc(int cdcNr) {
+    assert((cdcNr>=1) && (cdcNr<=2));         // exactly 2 CDC nr (1,2) are valid!
+    usb_buffer *ub = &usbdata[cdcNr-1];
+    if (ub->con) {
+        tud_cdc_n_write_flush(cdcNr); 
+    }
+}
+
+
+
 int Usb::readNextRxByte(uint8_t nr) {
+    assert((nr>=1) && (nr<=2));         // exactly 2 CDC nr (1,2) are valid!
     uint8_t databyte;
     usb_buffer *ub = &usbdata[nr-1];
     if (ub->ReadIdx == ub->RxIdx) {
