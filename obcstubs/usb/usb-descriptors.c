@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 /*
- * Modified to have 3CDC endpoints (CDC0 is taken from STDIO over USB feature)
+ * Modified to have 3 CDC endpoints (CDC0 is taken from STDIO over USB feature)
  *
  * This file is based on a file originally part of the
  * MicroPython project, http://micropython.org/

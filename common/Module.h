@@ -9,7 +9,7 @@
     Module(char *);
     virtual void main();
     virtual void init(void *);
-    virtual void executeCommand(int nr, int cnt, char** par) = 0;
+    virtual void executeCommand(int nr, int cnt, char** par){};
     std::string Name;
     int loopCnt = 1;
   private:
