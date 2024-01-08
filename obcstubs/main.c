@@ -105,5 +105,5 @@ void i2c_request_handler(uint8_t address)
 
 void i2c_stop_handler(uint8_t length)
 {
-    printf("I2c bytes: %u\n", length);
+    //printf("I2c bytes: %u\n", length);
 }

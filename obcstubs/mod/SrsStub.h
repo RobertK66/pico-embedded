@@ -17,6 +17,15 @@ enum srsbus_status
     idle, RxPowerbus, RxRequest,
 };
 
+struct srsdata {
+  uint64_t PosixTime;
+  uint32_t intervalFgDos = 100;
+  uint32_t intervalRadFet = 1000;
+  uint32_t intervalSram = 10042;
+  uint8_t  commonStatus[12]    = {0xcc, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b};
+  uint8_t  extendedStatus[30]  = {0xee, 0x10, 0x11, 0x12};
+};
+
 
 class SrsStub : public Module {
   public:
@@ -26,12 +35,14 @@ class SrsStub : public Module {
     void GenerateAnswer(uint8_t address);
 
   private:
+    uint8_t CalculateCrc(uint8_t *p, int len);
     uint8_t *pTxData;
     uint8_t RxData[SRS_BUFFER_SIZE];
     uint16_t RxIdx;
     srsbus_status Status;
-    //std::ostringstream Message;
     std::string Message;
+
+    srsdata data;
   };
 #else
   typedef
