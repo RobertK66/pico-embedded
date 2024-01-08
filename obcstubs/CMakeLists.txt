@@ -1,5 +1,6 @@
 add_executable( obcstubs
     main.c
+    i2c_multi.c
     ../common/MainClass.cpp
     ../common/Module.cpp
     ../common/CliModule.cpp
@@ -8,6 +9,7 @@ add_executable( obcstubs
     usb/usb-descriptors.c
     mod/Usb.cpp 
     mod/UartProxy.cpp
+    mod/SrsStub.cpp
 )
 
 target_include_directories(obcstubs PUBLIC
@@ -15,6 +17,7 @@ target_include_directories(obcstubs PUBLIC
     ../../pico-sdk/pico_sdk-src/lib/tinyusb/src
 )
 
+pico_generate_pio_header(obcstubs ${CMAKE_CURRENT_LIST_DIR}/i2c_multi.pio) 
 
 target_compile_definitions(obcstubs PRIVATE
     #TUD_OPT_RP2040_USB_DEVICE_ENUMERATION_FIX=1         # This is needed on some of my windows 11 dev pcs!                             19.12.2023: seems not to be needed any more....
@@ -25,7 +28,7 @@ target_compile_definitions(obcstubs PRIVATE
 
 # pull in common dependencies
 #target_link_libraries( obcstubs pico_stdlib pico_multicore hardware_i2c tinyusb_device hardware_flash)  // hardware_flash seems not to be needed (any more) USB config finds the Flash UID without it!?
-target_link_libraries( obcstubs pico_stdlib pico_multicore hardware_i2c tinyusb_device)
+target_link_libraries( obcstubs pico_stdlib pico_multicore hardware_i2c hardware_irq hardware_pio tinyusb_device)
 
 pico_enable_stdio_usb(obcstubs 1)                        # enable the stdio stream to USB device - serial COM driver (Microsoft standard driver)
 pico_enable_stdio_uart(obcstubs 0)                       # disable the uart to be used for stdio. (We use both UART as Proxies connected to CDC devices.)
