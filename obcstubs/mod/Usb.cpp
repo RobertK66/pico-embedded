@@ -78,6 +78,8 @@ void Usb::flushCdc(int cdcNr) {
     assert((cdcNr>=1) && (cdcNr<=2));         // exactly 2 CDC nr (1,2) are valid!
     usb_buffer *ub = &usbdata[cdcNr-1];
     if (ub->con) {
+        tud_task();
+//      tud_cdc_write_flush();
         tud_cdc_n_write_flush(cdcNr); 
     }
 }

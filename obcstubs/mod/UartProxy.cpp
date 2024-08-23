@@ -39,6 +39,7 @@ UartProxy::UartProxy(uart_config *cfg, char *pName, int cdc, Usb *usb) : UartBas
 		while (uart_is_readable(data.cfg->uart)) {
 			uint8_t b = uart_getc(data.cfg->uart);
             pUsb->writeByteCdc(CdcNr, b);
+            //pUsb->flushCdc(CdcNr);
 		}
         pUsb->flushCdc(CdcNr);
 		//mutex_exit(&ud->uart_mtx);

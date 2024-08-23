@@ -13,7 +13,7 @@
   struct Cmd;
   class CliModule : public Module {
   public:
-    CliModule(void);
+    CliModule(char *p, int len);
     void main() override;
     void init(void *) override;
     void executeCommand(int nr, int cnt, char** par) override;
@@ -25,6 +25,7 @@
     int  rxPtrIdx = 55;
     void processLine(void);
     std::string cmdLine;
+    std::string hwDesc;
   };
 #else
   typedef
@@ -36,6 +37,7 @@ extern "C" {
 #endif
 #if defined(__STDC__) || defined(__cplusplus)
     extern CliModule* createInstanceCliModule(void);
+    extern CliModule* createInstanceCliModule2(char* ver, unsigned int len);
     extern int cliRegisterCommand(CliModule* c, const char*p, Module* m, int cnr);
 #else
   

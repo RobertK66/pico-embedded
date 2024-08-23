@@ -17,13 +17,13 @@ void Module::init(void *p)  {
 } 
 
 void Module::main()  { 
-    if (loopCnt > 0) {
-        loopCnt--;
-        if (loopCnt==0) {
-            loopCnt = 5000000;
-            std::cout << Name[0] << std::endl;
-        }
-    }
+    // if (loopCnt > 0) {
+    //     loopCnt--;
+    //     if (loopCnt==0) {
+    //         loopCnt = 5000000;
+    //         std::cout << Name[0] << std::endl;
+    //     }
+    // }
    
 }
 

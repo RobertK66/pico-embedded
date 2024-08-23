@@ -1,6 +1,6 @@
 add_executable( obcstubs
     main.c
-    i2c_multi.c
+    i2c_multi.c                                     # used code from: https://github.com/dgatf/I2C-slave-multi-address-RP2040
     ../common/MainClass.cpp
     ../common/Module.cpp
     ../common/CliModule.cpp

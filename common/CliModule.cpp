@@ -3,6 +3,7 @@
 
 #include "string.h"
 #include <iostream>
+#include <hardware/flash.h>
 #include "pico/stdlib.h"
 
 struct Cmd {
@@ -11,8 +12,8 @@ struct Cmd {
     int cmdNumber;
 };
 
-CliModule::CliModule(void) : Module::Module((char *)"CliModule") { 
-
+CliModule::CliModule(char *hw, int len) : Module::Module((char *)"CliModule") { 
+	CliModule::hwDesc = std::string(hw, len);
 }
 
 void CliModule::init(void *p) {
@@ -28,7 +29,7 @@ void CliModule::main() {
     if (usbConnected != stdio_usb_connected()) {
         usbConnected = stdio_usb_connected();
         if (usbConnected) {
-            std::cout << "usb stdio connected now!" << std::endl;
+			std::cout << "usb connected to " << hwDesc << std::endl;
         } else {
             std::cout << "usb stdio disconnected now!" << std::endl;
         }
@@ -117,7 +118,23 @@ void CliModule::executeCommand(int nr, int cnt, char** par) {
 
 //  ------- C API  -------------
 CliModule* createInstanceCliModule(void) {
-    return  new CliModule();
+
+	uint8_t id[8];
+	char    hw[20];
+
+	flash_get_unique_id(id);
+	snprintf(hw, 17, "%02X%02X%02X%02X%02X%02X%02X%02X",
+		 id[0], id[1], id[2], id[3], id[4], id[5], id[6], id[7]);
+
+    return  new CliModule(hw, 17);
+}
+
+CliModule* createInstanceCliModule2(char *ver,  unsigned int len) {
+	// char mystr[18];
+	// strncpy(mystr, ver, 17);
+	// mystr[17] = 0;
+	// printf("starting Cli for %s", mystr);
+	return  new CliModule(ver, len);
 }
 
 int cliRegisterCommand(CliModule* m, const char*cmd, Module* target, int cnr) {

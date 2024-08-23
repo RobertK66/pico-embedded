@@ -84,10 +84,11 @@ static const uint8_t usbd_desc_cfg[USBD_DESC_LEN] = {
 };
 
 static char usbd_serial[USBD_STR_SERIAL_LEN] = "000000000000";
+static char usbd_prod[] = "Tiny2040-0x....";
 
 static const char *const usbd_desc_str[] = {
 	[USBD_STR_MANUF] = "Raspberry Pi",
-	[USBD_STR_PRODUCT] = "Tiny2040",
+	[USBD_STR_PRODUCT] = usbd_prod,
 	[USBD_STR_SERIAL] = usbd_serial,
 	[USBD_STR_CDC] = "Board CDC",
 };
@@ -135,4 +136,7 @@ void usbd_serial_init(void)
 
 	snprintf(usbd_serial, USBD_STR_SERIAL_LEN, "%02X%02X%02X%02X%02X%02X%02X%02X",
 		 id[0], id[1], id[2], id[3], id[4], id[5], id[6], id[7]);
+
+	snprintf(&(usbd_prod[11]), 5, "%02X%02X", id[6], id[7]);
+
 }

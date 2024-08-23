@@ -109,7 +109,7 @@ int main() {
 
 	ledCnt = ledSpeed;
 
-	printf("Hello SRS Simulator 0.3\n");
+	printf("Hello CLI Test 0.2\n");
 	CliRegisterCommand("led", LEDOnOff);
 	CliRegisterCommand("show", srsShow);
 	CliRegisterCommand("srsSet",srsSetDataArea);
@@ -141,10 +141,7 @@ int main() {
 					gpio_put(PICO_DEFAULT_I2C_SDA_PIN, 0);
 				    gpio_put(PICO_DEFAULT_I2C_SCL_PIN, 1);
 					LED_OFF;
-						
-					
-				}
-				else {
+				} else {
 					ledOn = true;
 					gpio_put(PICO_DEFAULT_I2C_SDA_PIN, 1);
 					gpio_put(PICO_DEFAULT_I2C_SCL_PIN, 0);
@@ -152,9 +149,7 @@ int main() {
 				}
 				ledCnt = ledSpeed;
 			}
-		}
 
-		// Process all registered CLI Commands
-		//CliMain();
+		}
 	}
 }

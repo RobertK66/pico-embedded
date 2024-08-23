@@ -3,11 +3,9 @@
 
 #include "../../common/Module.h"
 
-
 #define SRS_POWER_ADR       0x47
 #define SRS_CTRL_ADR        0x0B
 #define SRS_BUFFER_SIZE     1050
-
 
 #ifdef __cplusplus
 #include <string>
@@ -23,7 +21,7 @@ struct srsdata {
   uint32_t intervalRadFet = 1000;
   uint32_t intervalSram = 10042;
   uint8_t  commonStatus[12]    = {0xcc, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b};
-  uint8_t  extendedStatus[30]  = {0xee, 0x10, 0x11, 0x12};
+  uint8_t  extendedStatus[30]  = {0xee, 0x10, 0x11, 0x12};  //... all filled with 0
 };
 
 

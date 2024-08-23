@@ -16,7 +16,7 @@
 #include "mod/Usb.h"
 #include "mod/UartProxy.h"
 
-#include "i2c_multi.h"
+#include "i2c_multi.h"			// This is taken from: https://github.com/dgatf/I2C-slave-multi-address-RP2040 
 #include "mod/SrsStub.h"
 
 // local function prototypes
@@ -46,6 +46,7 @@ uart_config uc1 = { .uart = uart1, .rxPin=5, .txPin=4, .bit_rate=9600 };
 
 int main() {
 	// This inits are not done in module init because the sequence is important here!!!!
+	usbd_serial_init();	// generate the unique USB ID.
 	tusb_init();		// The usb device is configured to have 3 CDC - Serial endpoints
 	stdio_init_all();	// STDIO uses CDC0, CDC1/CDC2 are used as UART proxies for uart0/1
 
@@ -55,7 +56,7 @@ int main() {
     i2c_multi_enable_address(SRS_CTRL_ADR);
     i2c_multi_set_receive_handler(i2c_receive_handler);
     i2c_multi_set_request_handler(i2c_request_handler);
-    i2c_multi_set_stop_handler(i2c_stop_handler);
+    //i2c_multi_set_stop_handler(i2c_stop_handler);
     i2c_multi_set_write_buffer(i2cBuffer);
 
 	// Create and wire up all modules.
@@ -103,7 +104,7 @@ void i2c_request_handler(uint8_t address)
 	srs_request_handler(srsSimulator, address);
 }
 
-void i2c_stop_handler(uint8_t length)
-{
-    //printf("I2c bytes: %u\n", length);
-}
+// void i2c_stop_handler(uint8_t length)
+// {
+//     //printf("I2c bytes: %u\n", length);
+// }

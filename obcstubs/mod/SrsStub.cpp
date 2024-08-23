@@ -35,7 +35,7 @@
 
 SrsStub::SrsStub(uint8_t *txBuffer) : Module::Module((char *)"Srs")  { 
     pTxData = txBuffer;
-    Message += "init";
+    //Message += "init";
 }
 
 void SrsStub::main() {
@@ -178,7 +178,7 @@ void SrsStub::GenerateAnswer(uint8_t address) {
                     pTxData[i++] = SRS_STATUSTYPE_INVALID; 
                 }
                 pTxData[i] = CalculateCrc(pTxData, i);
-                out << i << " Bytes Status data sent.\n";
+                out << (i-2) << " Bytes Status data sent.\n";
                 break;
             }
     
