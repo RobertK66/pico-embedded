@@ -112,7 +112,7 @@ int main() {
 	// 	printf("Hello wlan 4\n");
 	// 	printf("connected\n");
 	// }
-	
+
 	
 
     //gpio_init(PICO_DEFAULT_I2C_SCL_PIN);     // Pin 5
