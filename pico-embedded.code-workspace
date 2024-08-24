@@ -7,33 +7,22 @@
 	"settings": {
 		// vvvv Change this to your needs vvvv
 		"myenv.armToolsBase": "C:/dev/arm-none-eabi-gcc/bin",
-		"myenv.openocdBase": "C:/dev/OpenOCD-20211118-0.11.0",
-		"myenv.openocdExe": "${config:myenv.openocdBase}/bin/openocd_rp2040.exe",
+		//"myenv.openocdBase": "C:/dev/OpenOCD-20211118-0.11.0",
+		"myenv.openocdBase": "C:/dev/OpenOCD-0.12.0",
+		//"myenv.openocdExe": "${config:myenv.openocdBase}/bin/openocd_rp2040.exe",
+		"myenv.openocdExe": "${config:myenv.openocdBase}/openocd.exe",
 		// ^^^^ Change this to your needs ^^^^
 
 		"cmake.configureOnOpen": true,
 		"cmake.configureEnvironment": {
-			"PICO_SDK_FETCH_FROM_GIT": "ON",
-			"PICO_SDK_FETCH_FROM_GIT_PATH": "./../pico-sdk",
+			"PICO_SDK_FETCH_FROM_GIT": "OFF",
+			//"PICO_SDK_FETCH_FROM_GIT_PATH": "./../pico-sdk-current",
+			//"PICO_SDK_PATH": "./../../pico-sdk-1.5.1/src",
+			"PICO_SDK_PATH": "./../../pico-sdk-current/pico_sdk-src",
+			//"PICOTOOL_FETCH_FROM_GIT_PATH": "./../../mypictool",
 			"PICO_BOARD": "pico",	//"pico_w"
 		},
-
-		"cmake.statusbar.advanced": {
-			"debug": {
-				"visibility": "hidden"
-			},
-			"launch": {
-				"visibility": "hidden"
-			},
-			"build": {
-				"visibility": "default"
-			},
-			"buildTarget": {
-				"visibility": "hidden"
-			}
-		},
 		"cmake.buildBeforeRun": true,
-
 		"cmake.generator": "Ninja",
 		"cortex-debug.armToolchainPath": "${config:myenv.armToolsBase}",
 		"cortex-debug.openocdPath": "${config:myenv.openocdExe}",
@@ -42,7 +31,59 @@
 			"i2c.h": "c",
 			"type_traits": "c",
 			"cyw43_arch.h": "c",
-			"sockets.h": "c"
+			"sockets.h": "c",
+			"tusb.h": "c",
+			"initializer_list": "cpp",
+			"xstring": "cpp",
+			"xutility": "cpp",
+			"array": "cpp",
+			"string_view": "cpp",
+			"utility": "cpp",
+			"bit": "cpp",
+			"cstddef": "cpp",
+			"memory": "cpp",
+			"stdexcept": "cpp",
+			"typeinfo": "cpp",
+			"xfacet": "cpp",
+			"xtr1common": "cpp",
+			"atomic": "cpp",
+			"*.tcc": "cpp",
+			"cctype": "cpp",
+			"clocale": "cpp",
+			"cmath": "cpp",
+			"compare": "cpp",
+			"concepts": "cpp",
+			"cstdarg": "cpp",
+			"cstdint": "cpp",
+			"cstdio": "cpp",
+			"cstdlib": "cpp",
+			"cstring": "cpp",
+			"ctime": "cpp",
+			"cwchar": "cpp",
+			"cwctype": "cpp",
+			"deque": "cpp",
+			"list": "cpp",
+			"string": "cpp",
+			"unordered_map": "cpp",
+			"vector": "cpp",
+			"exception": "cpp",
+			"algorithm": "cpp",
+			"functional": "cpp",
+			"iterator": "cpp",
+			"memory_resource": "cpp",
+			"numeric": "cpp",
+			"random": "cpp",
+			"system_error": "cpp",
+			"tuple": "cpp",
+			"iosfwd": "cpp",
+			"iostream": "cpp",
+			"istream": "cpp",
+			"limits": "cpp",
+			"new": "cpp",
+			"numbers": "cpp",
+			"ostream": "cpp",
+			"streambuf": "cpp",
+			"cinttypes": "cpp"
 		},
 	},
 	"launch": {
@@ -50,8 +91,8 @@
 		"configurations": [
 			{
 				"cwd": "${workspaceRoot}",
-				"executable": "${command:cmake.launchTargetPath}",
-				//"executable": "${workspaceRoot}\\build\\cli\\cli.elf",
+				//"executable": "${command:cmake.launchTargetPath}",
+				"executable": "${workspaceRoot}\\build\\cli\\cli.elf",
 				"name": "cli Pico(gdb, OpenOCD)",
 				"request": "launch",
 				"type": "cortex-debug",
@@ -65,17 +106,23 @@
 			},
 			{
 				"cwd": "${workspaceRoot}",
-				"executable": "${workspaceRoot}\\build\\wlan\\wlan.elf",
-				"name": "wlan Pico(gdb, OpenOCD)",
+				"executable": "${workspaceRoot}\\build\\obcstubs\\obcstubs.elf",
+				"name": "obcstubs Pico(gdb, OpenOCD)",
 				"request": "launch",
 				"type": "cortex-debug",
 				"servertype": "openocd",
 				"device": "Pico2040",
-				"runToEntryPoint": "main",						// Makes temp Breakpoint at main
-				"configFiles": ["interface/picoprobe.cfg", "target/rp2040.cfg"],
-				"searchDir": ["${config:myenv.openocdBase}/share/openocd/scripts"],
-				"svdFile": "${workspaceRoot}/../pico-sdk/pico_sdk-src/src/rp2040/hardware_regs/rp2040.svd",
+				"showDevDebugOutput": "raw" ,
+				//"runToEntryPoint": "main",						// Makes temp Breakpoint at main
+				//"configFiles": ["interface/picoprobe.cfg", "target/rp2040.cfg"],
+				"configFiles": ["interface/cmsis-dap.cfg", "target/rp2040.cfg"],  // Use this for picoprobe-cmsis-v1.0.3
+				//"searchDir": ["${config:myenv.openocdBase}/share/openocd/scripts"],
+				"searchDir": ["${config:myenv.openocdBase}/scripts"],
+				"svdFile": "${workspaceRoot}/../pico-sdk-current/pico_sdk-src/src/rp2040/hardware_regs/rp2040.svd",
 				"postRestartCommands": ["continue"], 			// Work around for stopping at main on restart
+				"openOCDLaunchCommands": [
+					"adapter speed 5000"
+				]
 			}
 		]
 	}

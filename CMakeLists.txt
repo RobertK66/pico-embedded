@@ -19,6 +19,8 @@ message("Your PICO SDK version is ${PICO_SDK_VERSION_STRING}")
 # Initialize the SDK
 pico_sdk_init()
 
+
+
 #include(example_auto_set_url.cmake)
 # Add blink example
 #add_subdirectory(cli)
@@ -29,6 +31,6 @@ pico_sdk_init()
 #        -Wno-maybe-uninitialized
 #        )
 add_subdirectory(cli)
-
+add_subdirectory(obcstubs)
 #add_subdirectory(wlan)
 
