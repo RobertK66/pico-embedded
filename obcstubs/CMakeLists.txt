@@ -14,7 +14,7 @@ add_executable( obcstubs
 
 target_include_directories(obcstubs PUBLIC
     ./usb       # this is needed to make our usb/tusb_config.h overwrite the (suported/needed) one in the right place!...
-    ../../pico-sdk/pico_sdk-src/lib/tinyusb/src
+    ${PICO_SDK_PATH}/lib/tinyusb/src
 )
 
 pico_generate_pio_header(obcstubs ${CMAKE_CURRENT_LIST_DIR}/i2c_multi.pio) 

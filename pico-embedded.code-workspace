@@ -4,127 +4,135 @@
 			"path": "."
 		}
 	],
+	
 	"settings": {
-		// vvvv Change this to your needs vvvv
-		"myenv.armToolsBase": "C:/dev/arm-none-eabi-gcc/bin",
-		//"myenv.openocdBase": "C:/dev/OpenOCD-20211118-0.11.0",
-		"myenv.openocdBase": "C:/dev/OpenOCD-0.12.0",
-		//"myenv.openocdExe": "${config:myenv.openocdBase}/bin/openocd_rp2040.exe",
-		"myenv.openocdExe": "${config:myenv.openocdBase}/openocd.exe",
-		// ^^^^ Change this to your needs ^^^^
-
-		"cmake.configureOnOpen": true,
-		"cmake.configureEnvironment": {
-			"PICO_SDK_FETCH_FROM_GIT": "OFF",
-			//"PICO_SDK_FETCH_FROM_GIT_PATH": "./../pico-sdk-current",
-			//"PICO_SDK_PATH": "./../../pico-sdk-1.5.1/src",
-			"PICO_SDK_PATH": "./../../pico-sdk-current/pico_sdk-src",
-			//"PICOTOOL_FETCH_FROM_GIT_PATH": "./../../mypictool",
-			"PICO_BOARD": "pico",	//"pico_w"
+		"cmake.options.statusBarVisibility": "hidden",
+		"cmake.options.advanced": {
+			"build": {
+				"statusBarVisibility": "hidden"
+			},
+			"launch": {
+				"statusBarVisibility": "hidden"
+			},
+			"debug": {
+				"statusBarVisibility": "hidden"
+			}
 		},
-		"cmake.buildBeforeRun": true,
-		"cmake.generator": "Ninja",
-		"cortex-debug.armToolchainPath": "${config:myenv.armToolsBase}",
-		"cortex-debug.openocdPath": "${config:myenv.openocdExe}",
-		"cortex-debug.gdbPath": "${config:myenv.armToolsBase}/arm-none-eabi-gdb.exe",
-		"files.associations": {
-			"i2c.h": "c",
-			"type_traits": "c",
-			"cyw43_arch.h": "c",
-			"sockets.h": "c",
-			"tusb.h": "c",
-			"initializer_list": "cpp",
-			"xstring": "cpp",
-			"xutility": "cpp",
-			"array": "cpp",
-			"string_view": "cpp",
-			"utility": "cpp",
-			"bit": "cpp",
-			"cstddef": "cpp",
-			"memory": "cpp",
-			"stdexcept": "cpp",
-			"typeinfo": "cpp",
-			"xfacet": "cpp",
-			"xtr1common": "cpp",
-			"atomic": "cpp",
-			"*.tcc": "cpp",
-			"cctype": "cpp",
-			"clocale": "cpp",
-			"cmath": "cpp",
-			"compare": "cpp",
-			"concepts": "cpp",
-			"cstdarg": "cpp",
-			"cstdint": "cpp",
-			"cstdio": "cpp",
-			"cstdlib": "cpp",
-			"cstring": "cpp",
-			"ctime": "cpp",
-			"cwchar": "cpp",
-			"cwctype": "cpp",
-			"deque": "cpp",
-			"list": "cpp",
-			"string": "cpp",
-			"unordered_map": "cpp",
-			"vector": "cpp",
-			"exception": "cpp",
-			"algorithm": "cpp",
-			"functional": "cpp",
-			"iterator": "cpp",
-			"memory_resource": "cpp",
-			"numeric": "cpp",
-			"random": "cpp",
-			"system_error": "cpp",
-			"tuple": "cpp",
-			"iosfwd": "cpp",
-			"iostream": "cpp",
-			"istream": "cpp",
-			"limits": "cpp",
-			"new": "cpp",
-			"numbers": "cpp",
-			"ostream": "cpp",
-			"streambuf": "cpp",
-			"cinttypes": "cpp"
+		"terminal.integrated.env.windows": {
+			"PICO_SDK_PATH": "${env:USERPROFILE}/.pico-sdk/sdk/2.0.0",
+			"PICO_TOOLCHAIN_PATH": "${env:USERPROFILE}/.pico-sdk/toolchain/13_2_Rel1",
+			"Path": "${env:USERPROFILE}/.pico-sdk/toolchain/13_2_Rel1/bin;${env:USERPROFILE}/.pico-sdk/picotool/2.0.0/picotool;${env:USERPROFILE}/.pico-sdk/cmake/v3.28.6/bin;${env:USERPROFILE}/.pico-sdk/ninja/v1.12.1;${env:PATH}"
 		},
+		"terminal.integrated.env.osx": {
+			"PICO_SDK_PATH": "${env:HOME}/.pico-sdk/sdk/2.0.0",
+			"PICO_TOOLCHAIN_PATH": "${env:HOME}/.pico-sdk/toolchain/13_2_Rel1",
+			"PATH": "${env:HOME}/.pico-sdk/toolchain/13_2_Rel1/bin:${env:HOME}/.pico-sdk/picotool/2.0.0/picotool:${env:HOME}/.pico-sdk/cmake/v3.28.6/bin:${env:HOME}/.pico-sdk/ninja/v1.12.1:${env:PATH}"
+		},
+		"terminal.integrated.env.linux": {
+			"PICO_SDK_PATH": "${env:HOME}/.pico-sdk/sdk/2.0.0",
+			"PICO_TOOLCHAIN_PATH": "${env:HOME}/.pico-sdk/toolchain/13_2_Rel1",
+			"PATH": "${env:HOME}/.pico-sdk/toolchain/13_2_Rel1/bin:${env:HOME}/.pico-sdk/picotool/2.0.0/picotool:${env:HOME}/.pico-sdk/cmake/v3.28.6/bin:${env:HOME}/.pico-sdk/ninja/v1.12.1:${env:PATH}"
+		},
+		
+		"raspberry-pi-pico.cmakeAutoConfigure": true,
+		"raspberry-pi-pico.useCmakeTools": false,
+		"raspberry-pi-pico.cmakePath": "${HOME}/.pico-sdk/cmake/v3.28.6/bin/cmake",
+		"raspberry-pi-pico.ninjaPath": "${HOME}/.pico-sdk/ninja/v1.12.1/ninja",
+		"raspberry-pi-pico.python3Path": "${HOME}/.pico-sdk/python/3.12.1/python.exe"
 	},
+	
 	"launch": {
 		"version": "0.2.0",
 		"configurations": [
 			{
-				"cwd": "${workspaceRoot}",
-				//"executable": "${command:cmake.launchTargetPath}",
-				"executable": "${workspaceRoot}\\build\\cli\\cli.elf",
-				"name": "cli Pico(gdb, OpenOCD)",
+				"name": "Debug obcstubs (Cortex-Debug)",
+				"cwd": "${userHome}/.pico-sdk/openocd/0.12.0+dev/scripts",
+				"executable": "${workspaceRoot}\\build\\obcstubs\\obcstubs.elf",
 				"request": "launch",
 				"type": "cortex-debug",
 				"servertype": "openocd",
-				"device": "Pico2040",
-				"runToEntryPoint": "main",						// Makes temp Breakpoint at main
-				"configFiles": ["interface/picoprobe.cfg", "target/rp2040.cfg"],
-				"searchDir": ["${config:myenv.openocdBase}/share/openocd/scripts"],
-				"svdFile": "${workspaceRoot}/../pico-sdk/pico_sdk-src/src/rp2040/hardware_regs/rp2040.svd",
-				"postRestartCommands": ["continue"], 			// Work around for stopping at main on restart
+				"serverpath": "${userHome}/.pico-sdk/openocd/0.12.0+dev/openocd.exe",
+				"gdbPath": "${command:raspberry-pi-pico.getGDBPath}",
+				"device": "${command:raspberry-pi-pico.getChip}",
+				"configFiles": [
+					"interface/cmsis-dap.cfg",
+					"target/${command:raspberry-pi-pico.getTarget}.cfg"
+				],
+				"svdFile": "${userHome}/.pico-sdk/sdk/2.0.0/src/${command:raspberry-pi-pico.getChip}/hardware_regs/${command:raspberry-pi-pico.getChip}.svd",
+				//"runToEntryPoint": "main",  // this does not work here !?
+				// Fix for no_flash binaries, where monitor reset halt doesn't do what is expected
+				// Also works fine for flash binaries
+				"overrideLaunchCommands": [
+				 	"monitor reset init",
+				 	"load \"/ddrive/dev/codews/pico-embedded/build/obcstubs/obcstubs.elf\""
+				],
+				"openOCDLaunchCommands": [
+					"adapter speed 8000"
+				]
 			},
 			{
-				"cwd": "${workspaceRoot}",
-				"executable": "${workspaceRoot}\\build\\obcstubs\\obcstubs.elf",
-				"name": "obcstubs Pico(gdb, OpenOCD)",
+				"name": "Debug cli (Cortex-Debug)",
+				"cwd": "${userHome}/.pico-sdk/openocd/0.12.0+dev/scripts",
+				"executable": "${workspaceRoot}\\build\\cli\\cli.elf",
 				"request": "launch",
 				"type": "cortex-debug",
 				"servertype": "openocd",
-				"device": "Pico2040",
-				"showDevDebugOutput": "raw" ,
-				//"runToEntryPoint": "main",						// Makes temp Breakpoint at main
-				//"configFiles": ["interface/picoprobe.cfg", "target/rp2040.cfg"],
-				"configFiles": ["interface/cmsis-dap.cfg", "target/rp2040.cfg"],  // Use this for picoprobe-cmsis-v1.0.3
-				//"searchDir": ["${config:myenv.openocdBase}/share/openocd/scripts"],
-				"searchDir": ["${config:myenv.openocdBase}/scripts"],
-				"svdFile": "${workspaceRoot}/../pico-sdk-current/pico_sdk-src/src/rp2040/hardware_regs/rp2040.svd",
-				"postRestartCommands": ["continue"], 			// Work around for stopping at main on restart
+				"serverpath": "${userHome}/.pico-sdk/openocd/0.12.0+dev/openocd.exe",
+				"gdbPath": "${command:raspberry-pi-pico.getGDBPath}",
+				"device": "${command:raspberry-pi-pico.getChip}",
+				"configFiles": [
+					"interface/cmsis-dap.cfg",
+					"target/${command:raspberry-pi-pico.getTarget}.cfg"
+				],
+				"svdFile": "${userHome}/.pico-sdk/sdk/2.0.0/src/${command:raspberry-pi-pico.getChip}/hardware_regs/${command:raspberry-pi-pico.getChip}.svd",
+				"runToEntryPoint": "main",  
+				// Fix for no_flash binaries, where monitor reset halt doesn't do what is expected
+				// Also works fine for flash binaries
+				"overrideLaunchCommands": [
+				 	"monitor reset init",
+				 	"load \"/ddrive/dev/codews/pico-embedded/build/cli/cli.elf\""
+				],
 				"openOCDLaunchCommands": [
-					"adapter speed 5000"
+					"adapter speed 10000"
 				]
-			}
+			},
+			// {
+			// 	"cwd": "${workspaceRoot}",
+			// 	//"executable": "${command:cmake.launchTargetPath}",
+			// 	"executable": "${workspaceRoot}\\build\\cli\\cli.elf",
+			// 	"name": "cli Pico(gdb, OpenOCD)",
+			// 	"request": "launch",
+			// 	"type": "cortex-debug",
+			// 	"servertype": "openocd",
+			// 	"device": "Pico2040",
+			// 	"runToEntryPoint": "main",						// Makes temp Breakpoint at main
+			// 	"configFiles": ["interface/picoprobe.cfg", "target/rp2040.cfg"],
+			// 	"searchDir": ["${config:myenv.openocdBase}/share/openocd/scripts"],
+			// 	"svdFile": "${workspaceRoot}/../pico-sdk/pico_sdk-src/src/rp2040/hardware_regs/rp2040.svd",
+			// 	"postRestartCommands": ["continue"], 			// Work around for stopping at main on restart
+			// },
+			// {
+			// 	"cwd": "${workspaceRoot}",
+			// 	"executable": "${workspaceRoot}\\build\\obcstubs\\obcstubs.elf",
+			// 	"name": "obcstubs Pico(gdb, OpenOCD)",
+			// 	"request": "launch",
+			// 	"type": "cortex-debug",
+			// 	"servertype": "openocd",
+			// 	"device": "Pico2040",
+			// 	"showDevDebugOutput": "raw" ,
+			// 	//"runToEntryPoint": "main",						// Makes temp Breakpoint at main
+			// 	//"configFiles": ["interface/picoprobe.cfg", "target/rp2040.cfg"],
+			// 	"configFiles": ["interface/cmsis-dap.cfg", "target/rp2040.cfg"],  // Use this for picoprobe-cmsis-v1.0.3
+			// 	//"searchDir": ["${config:myenv.openocdBase}/share/openocd/scripts"],
+			// 	"searchDir": ["${config:myenv.openocdBase}/scripts"],
+			// 	"svdFile": "${workspaceRoot}/../pico-sdk-current/pico_sdk-src/src/rp2040/hardware_regs/rp2040.svd",
+			// 	"postRestartCommands": ["continue"], 			// Work around for stopping at main on restart
+			// 	"openOCDLaunchCommands": [
+			// 		"adapter speed 5000"
+			// 	]
+			// }
 		]
 	}
+	
 	
 }

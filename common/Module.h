@@ -4,6 +4,7 @@
 #define MODULE_H
 #ifdef __cplusplus
 #include <string>
+#include <cstdint>
   class Module {
   public:
     Module(char *);
